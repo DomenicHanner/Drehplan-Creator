@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Button } from './ui/button';
@@ -17,6 +17,23 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const locationRef = useRef(null);
+  const castRef = useRef(null);
+  const notesRef = useRef(null);
+
+  const autoResize = (textarea) => {
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  };
+
+  useEffect(() => {
+    autoResize(locationRef.current);
+    autoResize(castRef.current);
+    autoResize(notesRef.current);
+  }, [row.location, row.cast, row.notes]);
 
   if (row.type === 'text') {
     return (
@@ -90,42 +107,51 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
       </td>
       <td>
         <textarea
+          ref={locationRef}
           value={row.location}
-          onChange={(e) => onUpdateRow({ ...row, location: e.target.value })}
+          onChange={(e) => {
+            onUpdateRow({ ...row, location: e.target.value });
+          }}
           placeholder="Location"
-          rows="1"
-          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
-          onInput={(e) => {
-            e.target.style.height = 'auto';
-            e.target.style.height = e.target.scrollHeight + 'px';
+          style={{ 
+            minHeight: '24px', 
+            height: 'auto', 
+            resize: 'none',
+            overflow: 'hidden'
           }}
           data-testid="location-input"
         />
       </td>
       <td>
         <textarea
+          ref={castRef}
           value={row.cast}
-          onChange={(e) => onUpdateRow({ ...row, cast: e.target.value })}
+          onChange={(e) => {
+            onUpdateRow({ ...row, cast: e.target.value });
+          }}
           placeholder="Cast members"
-          rows="1"
-          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
-          onInput={(e) => {
-            e.target.style.height = 'auto';
-            e.target.style.height = e.target.scrollHeight + 'px';
+          style={{ 
+            minHeight: '24px', 
+            height: 'auto', 
+            resize: 'none',
+            overflow: 'hidden'
           }}
           data-testid="cast-input"
         />
       </td>
       <td>
         <textarea
+          ref={notesRef}
           value={row.notes}
-          onChange={(e) => onUpdateRow({ ...row, notes: e.target.value })}
+          onChange={(e) => {
+            onUpdateRow({ ...row, notes: e.target.value });
+          }}
           placeholder="Notes"
-          rows="1"
-          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
-          onInput={(e) => {
-            e.target.style.height = 'auto';
-            e.target.style.height = e.target.scrollHeight + 'px';
+          style={{ 
+            minHeight: '24px', 
+            height: 'auto', 
+            resize: 'none',
+            overflow: 'hidden'
           }}
           data-testid="notes-input"
         />
