@@ -114,7 +114,7 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
       </div>
 
       {/* Calltime Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-visible">
         <table className="schedule-table w-full">
           <thead>
             <tr>
