@@ -100,6 +100,7 @@ class ProjectResponse(BaseModel):
     logo_url: str
     column_widths: ColumnWidths
     days: List[ScheduleDay]
+    calltimes: List[Calltime]
     created_at: str
     updated_at: str
     archived: bool
