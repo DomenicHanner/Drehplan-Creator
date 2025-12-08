@@ -108,6 +108,7 @@ class ProjectResponse(BaseModel):
     notes: str
     logo_url: str
     column_widths: ColumnWidths
+    column_headers: ColumnHeaders
     days: List[ScheduleDay]
     calltimes: List[Calltime]
     created_at: str
