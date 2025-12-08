@@ -104,7 +104,6 @@ class Project(BaseModel):
     logo_url: str = ""
     column_widths: Optional[ColumnWidths] = None
     column_headers: Optional[ColumnHeaders] = None
-    calltime_headers: Optional[CalltimeHeaders] = None
     days: List[ScheduleDay] = []
     calltimes: List[Calltime] = []
     created_at: Optional[str] = None
