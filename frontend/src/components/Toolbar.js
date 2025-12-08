@@ -85,77 +85,83 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-2">
-            <ColumnWidthControls
-              columnWidths={project.column_widths}
-              onChange={(widths) => onProjectChange({ ...project, column_widths: widths })}
-            />
+          <div className="flex flex-col gap-2">
+            {/* Top Row: Primary Actions */}
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBrowse}
+                data-testid="browse-projects-button"
+              >
+                <FolderOpen className="h-4 w-4 mr-2" />
+                Browse
+              </Button>
 
-            <div>
-              <input
-                type="file"
-                accept="image/jpeg,image/jpg,image/png"
-                onChange={handleLogoUpload}
-                className="hidden"
-                id="logo-upload"
-                data-testid="logo-upload-input"
-              />
-              <Label htmlFor="logo-upload">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={uploadingLogo}
-                  asChild
-                  data-testid="upload-logo-button"
-                >
-                  <span className="cursor-pointer">
-                    <Upload className="h-4 w-4 mr-2" />
-                    {uploadingLogo ? 'Uploading...' : 'Logo'}
-                  </span>
-                </Button>
-              </Label>
+              <Button
+                size="sm"
+                onClick={onSave}
+                disabled={saving}
+                data-testid="save-project-button"
+              >
+                <Save className="h-4 w-4 mr-2" />
+                {saving ? 'Saving...' : 'Save'}
+              </Button>
+
+              <Button
+                size="sm"
+                onClick={onPrint}
+                className="bg-blue-600 hover:bg-blue-700"
+                data-testid="print-button"
+              >
+                <Printer className="h-4 w-4 mr-2" />
+                Print
+              </Button>
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onBrowse}
-              data-testid="browse-projects-button"
-            >
-              <FolderOpen className="h-4 w-4 mr-2" />
-              Browse
-            </Button>
+            {/* Bottom Row: Secondary Actions */}
+            <div className="flex flex-wrap gap-2">
+              <div>
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png"
+                  onChange={handleLogoUpload}
+                  className="hidden"
+                  id="logo-upload"
+                  data-testid="logo-upload-input"
+                />
+                <Label htmlFor="logo-upload">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={uploadingLogo}
+                    asChild
+                    data-testid="upload-logo-button"
+                  >
+                    <span className="cursor-pointer">
+                      <Upload className="h-4 w-4 mr-2" />
+                      {uploadingLogo ? 'Uploading...' : 'Logo'}
+                    </span>
+                  </Button>
+                </Label>
+              </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onExportCSV}
-              disabled={!project.id}
-              data-testid="export-csv-button"
-            >
-              <FileDown className="h-4 w-4 mr-2" />
-              CSV
-            </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onExportCSV}
+                disabled={!project.id}
+                data-testid="export-csv-button"
+              >
+                <FileDown className="h-4 w-4 mr-2" />
+                CSV
+              </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onPrint}
-              data-testid="print-button"
-            >
-              <Printer className="h-4 w-4 mr-2" />
-              Print
-            </Button>
-
-            <Button
-              size="sm"
-              onClick={onSave}
-              disabled={saving}
-              data-testid="save-project-button"
-            >
-              <Save className="h-4 w-4 mr-2" />
-              {saving ? 'Saving...' : 'Save'}
-            </Button>
+              <ColumnWidthControls
+                columnWidths={project.column_widths}
+                onChange={(widths) => onProjectChange({ ...project, column_widths: widths })}
+              />
+            </div>
           </div>
         </div>
 
