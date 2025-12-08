@@ -99,6 +99,7 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
               </Button>
 
               <Button
+                variant="outline"
                 size="sm"
                 onClick={onSave}
                 disabled={saving}
@@ -109,9 +110,10 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
               </Button>
 
               <Button
+                variant="outline"
                 size="sm"
                 onClick={onPrint}
-                className="bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-200"
+                className="bg-slate-100 hover:bg-slate-200"
                 data-testid="print-button"
               >
                 <Printer className="h-4 w-4 mr-2" />
