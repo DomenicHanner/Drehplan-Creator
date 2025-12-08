@@ -94,6 +94,11 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
           onChange={(e) => onUpdateRow({ ...row, location: e.target.value })}
           placeholder="Location"
           rows="1"
+          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
+          onInput={(e) => {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+          }}
           data-testid="location-input"
         />
       </td>
@@ -103,6 +108,11 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
           onChange={(e) => onUpdateRow({ ...row, cast: e.target.value })}
           placeholder="Cast members"
           rows="1"
+          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
+          onInput={(e) => {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+          }}
           data-testid="cast-input"
         />
       </td>
@@ -112,6 +122,11 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
           onChange={(e) => onUpdateRow({ ...row, notes: e.target.value })}
           placeholder="Notes"
           rows="1"
+          style={{ minHeight: '24px', height: 'auto', resize: 'none' }}
+          onInput={(e) => {
+            e.target.style.height = 'auto';
+            e.target.style.height = e.target.scrollHeight + 'px';
+          }}
           data-testid="notes-input"
         />
       </td>
