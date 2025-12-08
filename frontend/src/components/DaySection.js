@@ -57,8 +57,7 @@ function DaySection({ day, columnWidths, onUpdateDay, onRemoveDay, canRemove }) 
     const newRow = {
       id: Date.now().toString(),
       type,
-      time_from: '',
-      time_to: '',
+      time: '',
       scene: '',
       location: '',
       cast: '',
