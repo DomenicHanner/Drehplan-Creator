@@ -26,11 +26,11 @@ function ScheduleEditor({ project, onProjectChange }) {
     })
   );
 
-  // Combine days and calltimes into a single sortable list
+  // Combine days and calltimes into a single sortable list, sorted by position
   const allItems = [
     ...project.days.map(day => ({ ...day, itemType: 'day' })),
     ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' }))
-  ];
+  ].sort((a, b) => (a.position || 0) - (b.position || 0));
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -41,9 +41,15 @@ function ScheduleEditor({ project, onProjectChange }) {
 
       const reorderedItems = arrayMove(allItems, oldIndex, newIndex);
       
+      // Update positions
+      const itemsWithPositions = reorderedItems.map((item, index) => ({
+        ...item,
+        position: index
+      }));
+      
       // Separate back into days and calltimes
-      const newDays = reorderedItems.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
-      const newCalltimes = reorderedItems.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+      const newDays = itemsWithPositions.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
+      const newCalltimes = itemsWithPositions.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
       
       onProjectChange({ ...project, days: newDays, calltimes: newCalltimes });
     }
@@ -56,6 +62,7 @@ function ScheduleEditor({ project, onProjectChange }) {
     const newDay = {
       id: Date.now().toString(),
       date: formattedDate,
+      position: allItems.length,
       rows: [
         {
           id: Date.now().toString() + '-1',
@@ -76,9 +83,11 @@ function ScheduleEditor({ project, onProjectChange }) {
     const newCalltime = {
       id: Date.now().toString(),
       title: 'Calltime',
+      position: allItems.length,
       rows: [
         {
           id: Date.now().toString() + '-1',
+          type: 'item',
           time: '',
           name: ''
         }
