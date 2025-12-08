@@ -98,11 +98,6 @@ class ColumnHeaders(BaseModel):
     notes: str = "Notes"
 
 
-class CalltimeHeaders(BaseModel):
-    time: str = "Time"
-    name: str = "Name"
-
-
 class Project(BaseModel):
     name: str
     notes: str = ""
