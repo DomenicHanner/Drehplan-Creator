@@ -31,7 +31,7 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
             <GripVertical className="h-4 w-4" />
           </div>
         </td>
-        <td colSpan="6">
+        <td colSpan="5">
           <input
             type="text"
             value={row.notes}
