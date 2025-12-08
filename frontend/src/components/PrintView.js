@@ -164,28 +164,44 @@ function PrintView({ project }) {
             </thead>
             <tbody>
               {calltime.rows.map((row) => (
-                <tr key={row.id}>
-                  <td
-                    className="border border-slate-300 px-2 py-1 text-xs"
-                    style={{
-                      overflowWrap: 'anywhere',
-                      wordWrap: 'break-word',
-                      whiteSpace: 'normal'
-                    }}
-                  >
-                    {row.time}
-                  </td>
-                  <td
-                    className="border border-slate-300 px-2 py-1 text-xs"
-                    style={{
-                      overflowWrap: 'anywhere',
-                      wordWrap: 'break-word',
-                      whiteSpace: 'normal'
-                    }}
-                  >
-                    {row.name}
-                  </td>
-                </tr>
+                row.type === 'text' ? (
+                  <tr key={row.id}>
+                    <td
+                      colSpan="2"
+                      className="border border-slate-300 bg-slate-50 px-2 py-1 text-center font-semibold text-sm"
+                      style={{
+                        overflowWrap: 'anywhere',
+                        wordWrap: 'break-word',
+                        whiteSpace: 'normal'
+                      }}
+                    >
+                      {row.name}
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={row.id}>
+                    <td
+                      className="border border-slate-300 px-2 py-1 text-xs"
+                      style={{
+                        overflowWrap: 'anywhere',
+                        wordWrap: 'break-word',
+                        whiteSpace: 'normal'
+                      }}
+                    >
+                      {row.time}
+                    </td>
+                    <td
+                      className="border border-slate-300 px-2 py-1 text-xs"
+                      style={{
+                        overflowWrap: 'anywhere',
+                        wordWrap: 'break-word',
+                        whiteSpace: 'normal'
+                      }}
+                    >
+                      {row.name}
+                    </td>
+                  </tr>
+                )
               ))}
             </tbody>
           </table>
