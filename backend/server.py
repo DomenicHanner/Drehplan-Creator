@@ -394,6 +394,9 @@ async def export_project_csv(project_id: str):
 # Include the router in the main app
 app.include_router(api_router)
 
+# Mount static files AFTER router - serve uploaded files
+app.mount("/api/media", StaticFiles(directory=str(UPLOAD_DIR)), name="media")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
