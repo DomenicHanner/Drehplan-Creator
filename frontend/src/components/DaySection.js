@@ -128,7 +128,7 @@ function DaySection({ day, columnWidths, onUpdateDay, onRemoveDay, canRemove }) 
               <th style={{ width: `${columnWidths?.location || 23}%` }}>Location</th>
               <th style={{ width: `${columnWidths?.cast || 23}%` }}>Cast</th>
               <th style={{ width: `${columnWidths?.notes || 24}%` }}>Notes</th>
-              <th className="no-print" style={{ width: '40px' }}></th>
+              <th className="no-print" style={{ width: '60px' }}></th>
             </tr>
           </thead>
           <tbody>
