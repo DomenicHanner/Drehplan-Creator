@@ -26,27 +26,26 @@ function ScheduleEditor({ project, onProjectChange }) {
     })
   );
 
-  const handleDayDragEnd = (event) => {
+  // Combine days and calltimes into a single sortable list
+  const allItems = [
+    ...project.days.map(day => ({ ...day, itemType: 'day' })),
+    ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' }))
+  ];
+
+  const handleDragEnd = (event) => {
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      const oldIndex = project.days.findIndex((day) => day.id === active.id);
-      const newIndex = project.days.findIndex((day) => day.id === over.id);
+      const oldIndex = allItems.findIndex((item) => item.id === active.id);
+      const newIndex = allItems.findIndex((item) => item.id === over.id);
 
-      const newDays = arrayMove(project.days, oldIndex, newIndex);
-      onProjectChange({ ...project, days: newDays });
-    }
-  };
-
-  const handleCalltimeDragEnd = (event) => {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      const oldIndex = project.calltimes.findIndex((ct) => ct.id === active.id);
-      const newIndex = project.calltimes.findIndex((ct) => ct.id === over.id);
-
-      const newCalltimes = arrayMove(project.calltimes, oldIndex, newIndex);
-      onProjectChange({ ...project, calltimes: newCalltimes });
+      const reorderedItems = arrayMove(allItems, oldIndex, newIndex);
+      
+      // Separate back into days and calltimes
+      const newDays = reorderedItems.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
+      const newCalltimes = reorderedItems.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+      
+      onProjectChange({ ...project, days: newDays, calltimes: newCalltimes });
     }
   };
 
