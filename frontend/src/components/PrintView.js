@@ -142,7 +142,7 @@ function PrintView({ project }) {
       {/* Calltimes */}
       {project.calltimes && project.calltimes.length > 0 && project.calltimes.map((calltime) => (
         <div key={calltime.id} className="calltime-section mb-8">
-          <div className="bg-green-100 px-4 py-2 font-semibold text-slate-900 mb-2">
+          <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-900 mb-2">
             {calltime.title}
           </div>
           <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
