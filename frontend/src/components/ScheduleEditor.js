@@ -142,7 +142,9 @@ function ScheduleEditor({ project, onProjectChange }) {
                 key={item.id}
                 day={item}
                 columnWidths={project.column_widths}
+                columnHeaders={project.column_headers}
                 onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
+                onUpdateHeaders={(updatedHeaders) => onProjectChange({ ...project, column_headers: updatedHeaders })}
                 onRemoveDay={() => handleRemoveDay(item.id)}
                 canRemove={project.days.length > 1}
               />
