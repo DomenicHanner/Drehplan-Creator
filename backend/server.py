@@ -395,6 +395,33 @@ async def delete_project(project_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.post("/projects/{project_id}/archive")
+async def toggle_archive_project(project_id: str):
+    """Toggle archive status of a project"""
+    try:
+        project = await db.projects.find_one({"_id": ObjectId(project_id)})
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        new_archived_status = not project.get('archived', False)
+        
+        await db.projects.update_one(
+            {"_id": ObjectId(project_id)},
+            {"$set": {"archived": new_archived_status}}
+        )
+        
+        return {
+            "success": True,
+            "archived": new_archived_status,
+            "message": "Project archived" if new_archived_status else "Project unarchived"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Archive project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/projects/{project_id}/export.csv")
 async def export_project_csv(project_id: str):
     """Export project to CSV with DD-MM-YYYY dates"""
