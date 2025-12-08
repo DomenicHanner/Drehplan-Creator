@@ -20,7 +20,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { GripVertical, Plus, Trash2, Clock } from 'lucide-react';
 
-function CalltimeSection({ calltime, calltimeHeaders, onUpdateCalltime, onUpdateHeaders, onRemoveCalltime, canRemove }) {
+function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemove }) {
   const {
     attributes,
     listeners,
