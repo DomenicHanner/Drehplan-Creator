@@ -13,11 +13,11 @@
   },
   {
     "content": "Phase 2: Get design guidelines from design_agent",
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "content": "Phase 2: Build complete backend (MongoDB models, all CRUD endpoints, CSV/print endpoints, static file serving)",
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "content": "Phase 2: Build complete frontend (schedule editor with drag-and-drop, inline editing, column width sliders, project browser, logo upload)",
