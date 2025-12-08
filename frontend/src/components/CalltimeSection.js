@@ -123,8 +123,11 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
               <th style={{ width: '15%' }}>
                 <input
                   type="text"
-                  value={calltimeHeaders?.time || 'Time'}
-                  onChange={(e) => onUpdateHeaders({ ...calltimeHeaders, time: e.target.value })}
+                  value={calltime.headers?.time || 'Time'}
+                  onChange={(e) => onUpdateCalltime({ 
+                    ...calltime, 
+                    headers: { ...calltime.headers, time: e.target.value } 
+                  })}
                   className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
                   placeholder="Time"
                 />
@@ -132,8 +135,11 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
               <th style={{ width: '85%' }}>
                 <input
                   type="text"
-                  value={calltimeHeaders?.name || 'Name'}
-                  onChange={(e) => onUpdateHeaders({ ...calltimeHeaders, name: e.target.value })}
+                  value={calltime.headers?.name || 'Name'}
+                  onChange={(e) => onUpdateCalltime({ 
+                    ...calltime, 
+                    headers: { ...calltime.headers, name: e.target.value } 
+                  })}
                   className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
                   placeholder="Name"
                 />
