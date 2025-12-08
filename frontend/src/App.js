@@ -41,6 +41,10 @@ function App() {
         cast: 'Cast',
         notes: 'Notes'
       },
+      calltime_headers: {
+        time: 'Time',
+        name: 'Name'
+      },
       days: [
         {
           id: Date.now().toString(),
