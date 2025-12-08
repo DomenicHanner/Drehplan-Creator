@@ -185,7 +185,7 @@ async def upload_logo(file: UploadFile = File(...)):
         with open(file_path, 'wb') as f:
             f.write(content)
         
-        logo_url = f"/api/uploads/{safe_filename}"
+        logo_url = f"/api/media/{safe_filename}"
         logger.info(f"Logo uploaded: {logo_url}")
         
         return {
