@@ -50,7 +50,8 @@ function App() {
             }
           ]
         }
-      ]
+      ],
+      calltimes: []
     };
     
     setCurrentProject(newProject);
