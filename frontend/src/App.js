@@ -28,11 +28,10 @@ function App() {
       notes: '',
       logo_url: '',
       column_widths: {
-        time_from: 8,
-        time_to: 8,
+        time: 15,
         scene: 15,
-        location: 20,
-        cast: 25,
+        location: 23,
+        cast: 23,
         notes: 24
       },
       days: [
@@ -43,8 +42,7 @@ function App() {
             {
               id: Date.now().toString() + '-1',
               type: 'item',
-              time_from: '',
-              time_to: '',
+              time: '',
               scene: '',
               location: '',
               cast: '',
