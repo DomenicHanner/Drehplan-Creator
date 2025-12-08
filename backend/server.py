@@ -372,25 +372,40 @@ async def export_project_csv(project_id: str):
         output = io.StringIO()
         writer = csv.writer(output)
         
-        # Write header
-        writer.writerow(['Date', 'Time', 'Scene', 'Location', 'Cast', 'Notes'])
+        # Write schedule days
+        if project.get('days'):
+            writer.writerow(['SCHEDULE'])
+            writer.writerow(['Date', 'Time', 'Scene', 'Location', 'Cast', 'Notes'])
+            
+            for day in project.get('days', []):
+                date_formatted = format_date_dd_mm_yyyy(day['date'])
+                for row in day.get('rows', []):
+                    if row['type'] == 'item':
+                        writer.writerow([
+                            date_formatted,
+                            row.get('time', ''),
+                            row.get('scene', ''),
+                            row.get('location', ''),
+                            row.get('cast', ''),
+                            row.get('notes', '')
+                        ])
+                    elif row['type'] == 'text':
+                        writer.writerow([date_formatted, '', row.get('notes', ''), '', '', ''])
+            
+            writer.writerow([])  # Empty row separator
         
-        # Write rows - one row per schedule item with its date
-        for day in project.get('days', []):
-            date_formatted = format_date_dd_mm_yyyy(day['date'])
-            for row in day.get('rows', []):
-                if row['type'] == 'item':
+        # Write calltimes
+        if project.get('calltimes'):
+            writer.writerow(['CALLTIMES'])
+            writer.writerow(['Time', 'Name'])
+            
+            for calltime in project.get('calltimes', []):
+                for row in calltime.get('rows', []):
                     writer.writerow([
-                        date_formatted,
                         row.get('time', ''),
-                        row.get('scene', ''),
-                        row.get('location', ''),
-                        row.get('cast', ''),
-                        row.get('notes', '')
+                        row.get('name', '')
                     ])
-                elif row['type'] == 'text':
-                    # Text rows as section headers
-                    writer.writerow([date_formatted, '', row.get('notes', ''), '', '', ''])
+                writer.writerow([])  # Empty row between calltimes
         
         output.seek(0)
         return StreamingResponse(
