@@ -422,6 +422,48 @@ async def toggle_archive_project(project_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.post("/projects/{project_id}/duplicate")
+async def duplicate_project(project_id: str):
+    """Duplicate a project with a new name"""
+    try:
+        project = await db.projects.find_one({"_id": ObjectId(project_id)})
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        # Remove _id and create new name
+        project.pop('_id', None)
+        original_name = project['name']
+        project['name'] = f"{original_name} (Copy)"
+        
+        # Update timestamps
+        now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        project['created_at'] = now
+        project['updated_at'] = now
+        project['archived'] = False
+        
+        # Generate new IDs for all nested items
+        for day in project.get('days', []):
+            day['id'] = str(uuid.uuid4())
+            for row in day.get('rows', []):
+                row['id'] = str(uuid.uuid4())
+        
+        for calltime in project.get('calltimes', []):
+            calltime['id'] = str(uuid.uuid4())
+            for row in calltime.get('rows', []):
+                row['id'] = str(uuid.uuid4())
+        
+        # Insert duplicate
+        result = await db.projects.insert_one(project)
+        duplicated = await db.projects.find_one({"_id": result.inserted_id})
+        
+        return serialize_doc(duplicated)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Duplicate project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/projects/{project_id}/export.csv")
 async def export_project_csv(project_id: str):
     """Export project to CSV with DD-MM-YYYY dates"""
