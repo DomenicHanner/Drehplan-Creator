@@ -163,7 +163,7 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
         {project.logo_url && (
           <div className="mt-3 flex items-center gap-2">
             <img
-              src={project.logo_url}
+              src={`${BACKEND_URL}${project.logo_url}`}
               alt="Project Logo"
               className="h-12 object-contain"
               data-testid="logo-preview"
