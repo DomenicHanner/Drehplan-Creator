@@ -53,10 +53,11 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
     }
   };
 
-  const handleAddRow = () => {
+  const handleAddRow = (type = 'item') => {
     const newRow = {
       id: Date.now().toString(),
-      time: '',
+      type,
+      time: type === 'item' ? '' : undefined,
       name: ''
     };
 
