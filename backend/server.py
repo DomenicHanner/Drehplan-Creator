@@ -59,18 +59,21 @@ class ScheduleDay(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     date: str  # DD-MM-YYYY format
     rows: List[ScheduleRow] = []
+    position: int = 0
 
 
 class CalltimeRow(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     time: str = ""
     name: str = ""
+    type: str = "item"  # 'item' or 'text'
 
 
 class Calltime(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str = "Calltime"
     rows: List[CalltimeRow] = []
+    position: int = 0
 
 
 class ColumnWidths(BaseModel):
