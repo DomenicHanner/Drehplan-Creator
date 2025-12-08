@@ -48,8 +48,7 @@ logger = logging.getLogger(__name__)
 class ScheduleRow(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     type: str  # 'item' or 'text'
-    time_from: str = ""
-    time_to: str = ""
+    time: str = ""
     scene: str = ""
     location: str = ""
     cast: str = ""
@@ -63,11 +62,10 @@ class ScheduleDay(BaseModel):
 
 
 class ColumnWidths(BaseModel):
-    time_from: int = 8
-    time_to: int = 8
+    time: int = 15
     scene: int = 15
-    location: int = 20
-    cast: int = 25
+    location: int = 23
+    cast: int = 23
     notes: int = 24
 
 
@@ -361,7 +359,7 @@ async def export_project_csv(project_id: str):
         writer = csv.writer(output)
         
         # Write header
-        writer.writerow(['Date', 'Time From', 'Time To', 'Scene', 'Location', 'Cast', 'Notes'])
+        writer.writerow(['Date', 'Time', 'Scene', 'Location', 'Cast', 'Notes'])
         
         # Write rows - one row per schedule item with its date
         for day in project.get('days', []):
@@ -370,8 +368,7 @@ async def export_project_csv(project_id: str):
                 if row['type'] == 'item':
                     writer.writerow([
                         date_formatted,
-                        row.get('time_from', ''),
-                        row.get('time_to', ''),
+                        row.get('time', ''),
                         row.get('scene', ''),
                         row.get('location', ''),
                         row.get('cast', ''),
@@ -379,7 +376,7 @@ async def export_project_csv(project_id: str):
                     ])
                 elif row['type'] == 'text':
                     # Text rows as section headers
-                    writer.writerow([date_formatted, '', '', row.get('notes', ''), '', '', ''])
+                    writer.writerow([date_formatted, '', row.get('notes', ''), '', '', ''])
         
         output.seek(0)
         return StreamingResponse(
