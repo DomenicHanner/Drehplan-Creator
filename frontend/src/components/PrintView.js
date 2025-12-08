@@ -138,6 +138,59 @@ function PrintView({ project }) {
           </table>
         </div>
       ))}
+
+      {/* Calltimes */}
+      {project.calltimes && project.calltimes.length > 0 && project.calltimes.map((calltime) => (
+        <div key={calltime.id} className="calltime-section mb-8">
+          <div className="bg-green-100 px-4 py-2 font-semibold text-slate-900 mb-2">
+            {calltime.title}
+          </div>
+          <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
+            <thead>
+              <tr>
+                <th
+                  className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
+                  style={{ width: '30%' }}
+                >
+                  Time
+                </th>
+                <th
+                  className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
+                  style={{ width: '70%' }}
+                >
+                  Name
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {calltime.rows.map((row) => (
+                <tr key={row.id}>
+                  <td
+                    className="border border-slate-300 px-2 py-1 text-xs"
+                    style={{
+                      overflowWrap: 'anywhere',
+                      wordWrap: 'break-word',
+                      whiteSpace: 'normal'
+                    }}
+                  >
+                    {row.time}
+                  </td>
+                  <td
+                    className="border border-slate-300 px-2 py-1 text-xs"
+                    style={{
+                      overflowWrap: 'anywhere',
+                      wordWrap: 'break-word',
+                      whiteSpace: 'normal'
+                    }}
+                  >
+                    {row.name}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   );
 }
