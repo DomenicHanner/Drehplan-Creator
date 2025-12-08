@@ -293,9 +293,10 @@ async def save_project(project: Project):
         if project.column_headers is None:
             project.column_headers = ColumnHeaders()
         
-        # Set default calltime headers if not provided
-        if project.calltime_headers is None:
-            project.calltime_headers = CalltimeHeaders()
+        # Set default headers for each calltime if not provided
+        for calltime in project.calltimes:
+            if calltime.headers is None:
+                calltime.headers = CalltimeHeaders()
         
         # Auto-archive check
         project_dict = project.model_dump()
