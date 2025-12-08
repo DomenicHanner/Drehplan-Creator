@@ -57,29 +57,15 @@ function ColumnWidthControls({ columnWidths, onChange }) {
           <div className="space-y-3">
             <div>
               <label className="text-xs text-slate-600 mb-1 block">
-                Time From ({columnWidths.time_from}%)
+                Time ({columnWidths.time}%)
               </label>
               <Slider
-                value={[columnWidths.time_from]}
-                onValueChange={(value) => handleWidthChange('time_from', value)}
-                min={5}
+                value={[columnWidths.time]}
+                onValueChange={(value) => handleWidthChange('time', value)}
+                min={10}
                 max={30}
                 step={1}
-                data-testid="time-from-slider"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs text-slate-600 mb-1 block">
-                Time To ({columnWidths.time_to}%)
-              </label>
-              <Slider
-                value={[columnWidths.time_to]}
-                onValueChange={(value) => handleWidthChange('time_to', value)}
-                min={5}
-                max={30}
-                step={1}
-                data-testid="time-to-slider"
+                data-testid="time-slider"
               />
             </div>
 
@@ -104,7 +90,7 @@ function ColumnWidthControls({ columnWidths, onChange }) {
               <Slider
                 value={[columnWidths.location]}
                 onValueChange={(value) => handleWidthChange('location', value)}
-                min={10}
+                min={15}
                 max={40}
                 step={1}
                 data-testid="location-slider"
