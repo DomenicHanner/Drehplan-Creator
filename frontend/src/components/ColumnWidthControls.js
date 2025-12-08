@@ -34,7 +34,7 @@ function ColumnWidthControls({ columnWidths, onChange }) {
         <Button
           variant="outline"
           size="sm"
-          className="no-print"
+          className="no-print border-slate-300"
           data-testid="column-width-button"
         >
           <Settings2 className="h-4 w-4 mr-2" />
