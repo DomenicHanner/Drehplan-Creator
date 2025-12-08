@@ -187,9 +187,7 @@ function ScheduleEditor({ project, onProjectChange }) {
               <CalltimeSection
                 key={item.id}
                 calltime={item}
-                calltimeHeaders={project.calltime_headers}
                 onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
-                onUpdateHeaders={(updatedHeaders) => onProjectChange({ ...project, calltime_headers: updatedHeaders })}
                 onRemoveCalltime={() => handleRemoveCalltime(item.id)}
                 canRemove={true}
               />
