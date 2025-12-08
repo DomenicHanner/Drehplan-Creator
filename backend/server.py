@@ -30,11 +30,11 @@ db = client[os.environ.get('DB_NAME', 'filmschedule')]
 # Create the main app
 app = FastAPI()
 
-# Mount static files for uploads
-app.mount("/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
-
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
+
+# Mount static files for uploads under /api prefix
+app.mount("/api/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 # Configure logging
 logging.basicConfig(
