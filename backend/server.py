@@ -4,11 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
 import os
 import logging
 from pathlib import Path
-from pydantic import BaseModel
-from typing import List, Dict, Any
+from pydantic import BaseModel, Field
+from typing import List, Dict, Any, Optional
 import uuid
 from datetime import datetime
 import csv
@@ -43,8 +44,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# POC Models for testing
+# Models
 class ScheduleRow(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     type: str  # 'item' or 'text'
     time_from: str = ""
     time_to: str = ""
@@ -55,29 +57,104 @@ class ScheduleRow(BaseModel):
 
 
 class ScheduleDay(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     date: str  # DD-MM-YYYY format
-    rows: List[ScheduleRow]
+    rows: List[ScheduleRow] = []
 
 
-class MockProject(BaseModel):
+class ColumnWidths(BaseModel):
+    time_from: int = 8
+    time_to: int = 8
+    scene: int = 15
+    location: int = 20
+    cast: int = 25
+    notes: int = 24
+
+
+class Project(BaseModel):
     name: str
     notes: str = ""
     logo_url: str = ""
+    column_widths: Optional[ColumnWidths] = None
+    days: List[ScheduleDay] = []
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
+    archived: bool = False
+
+
+class ProjectResponse(BaseModel):
+    id: str
+    name: str
+    notes: str
+    logo_url: str
+    column_widths: ColumnWidths
     days: List[ScheduleDay]
+    created_at: str
+    updated_at: str
+    archived: bool
 
 
-# Helper function to format date
+class ProjectListItem(BaseModel):
+    id: str
+    name: str
+    created_at: str
+    updated_at: str
+    archived: bool
+    day_count: int
+
+
+# Helper functions
+def serialize_doc(doc: Dict) -> Dict:
+    """Convert MongoDB document to JSON-serializable format"""
+    if doc is None:
+        return None
+    
+    result = {}
+    for key, value in doc.items():
+        if key == '_id':
+            result['id'] = str(value)
+        elif isinstance(value, ObjectId):
+            result[key] = str(value)
+        elif isinstance(value, datetime):
+            result[key] = value.strftime("%d-%m-%Y %H:%M:%S")
+        else:
+            result[key] = value
+    
+    return result
+
+
 def format_date_dd_mm_yyyy(date_str: str) -> str:
     """Ensure date is in DD-MM-YYYY format"""
     return date_str
 
 
-# POC Endpoints
+def parse_date(date_str: str) -> datetime:
+    """Parse DD-MM-YYYY date string to datetime"""
+    try:
+        return datetime.strptime(date_str, "%d-%m-%Y")
+    except:
+        return datetime.now()
+
+
+def is_project_archived(project: Dict) -> bool:
+    """Check if project should be archived based on dates"""
+    if not project.get('days'):
+        return False
+    
+    today = datetime.now().date()
+    for day in project['days']:
+        day_date = parse_date(day['date']).date()
+        if day_date >= today:
+            return False
+    
+    return True
+
+
+# Endpoints
 @api_router.get("/health")
 async def health_check():
     """Test MongoDB connectivity"""
     try:
-        # Ping MongoDB
         await client.admin.command('ping')
         return {
             "status": "healthy",
@@ -93,9 +170,13 @@ async def health_check():
 async def upload_logo(file: UploadFile = File(...)):
     """Upload logo (JPG/PNG) and return URL"""
     try:
-        # Validate file type
         if file.content_type not in ["image/jpeg", "image/jpg", "image/png"]:
             raise HTTPException(status_code=400, detail="Only JPG and PNG files are allowed")
+        
+        # Check file size (max 5MB)
+        content = await file.read()
+        if len(content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="File size must be less than 5MB")
         
         # Generate safe filename
         file_ext = file.filename.split('.')[-1]
@@ -103,11 +184,9 @@ async def upload_logo(file: UploadFile = File(...)):
         file_path = UPLOAD_DIR / safe_filename
         
         # Save file
-        content = await file.read()
         with open(file_path, 'wb') as f:
             f.write(content)
         
-        # Return URL
         logo_url = f"/uploads/{safe_filename}"
         logger.info(f"Logo uploaded: {logo_url}")
         
@@ -123,10 +202,161 @@ async def upload_logo(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@api_router.post("/projects/export/csv")
-async def export_csv_poc(project: MockProject):
-    """POC: Export project to CSV with DD-MM-YYYY dates"""
+@api_router.get("/projects")
+async def list_projects(include_archived: bool = False):
+    """List all projects, grouped by active/archived"""
     try:
+        cursor = db.projects.find({}, {"_id": 1, "name": 1, "created_at": 1, "updated_at": 1, "archived": 1, "days": 1})
+        projects = await cursor.to_list(length=None)
+        
+        active = []
+        archived = []
+        
+        for proj in projects:
+            # Auto-archive check
+            should_be_archived = is_project_archived(proj)
+            if should_be_archived and not proj.get('archived', False):
+                await db.projects.update_one(
+                    {"_id": proj["_id"]},
+                    {"$set": {"archived": True}}
+                )
+                proj['archived'] = True
+            
+            item = ProjectListItem(
+                id=str(proj["_id"]),
+                name=proj["name"],
+                created_at=proj.get("created_at", ""),
+                updated_at=proj.get("updated_at", ""),
+                archived=proj.get("archived", False),
+                day_count=len(proj.get("days", []))
+            )
+            
+            if item.archived:
+                archived.append(item.model_dump())
+            else:
+                active.append(item.model_dump())
+        
+        return {
+            "active": active,
+            "archived": archived if include_archived else []
+        }
+    except Exception as e:
+        logger.error(f"List projects failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/projects/save")
+async def save_project(project: Project):
+    """Save project - upsert by exact name match"""
+    try:
+        now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        
+        # Check if project exists by name
+        existing = await db.projects.find_one({"name": project.name})
+        
+        # Set default column widths if not provided
+        if project.column_widths is None:
+            project.column_widths = ColumnWidths()
+        
+        # Auto-archive check
+        project_dict = project.model_dump()
+        project_dict['archived'] = is_project_archived(project_dict)
+        
+        if existing:
+            # Update existing project
+            project_dict['created_at'] = existing.get('created_at', now)
+            project_dict['updated_at'] = now
+            
+            await db.projects.update_one(
+                {"_id": existing["_id"]},
+                {"$set": project_dict}
+            )
+            
+            updated = await db.projects.find_one({"_id": existing["_id"]})
+            return serialize_doc(updated)
+        else:
+            # Create new project
+            project_dict['created_at'] = now
+            project_dict['updated_at'] = now
+            
+            result = await db.projects.insert_one(project_dict)
+            created = await db.projects.find_one({"_id": result.inserted_id})
+            return serialize_doc(created)
+    except Exception as e:
+        logger.error(f"Save project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/projects/{project_id}")
+async def get_project(project_id: str):
+    """Get project by ID"""
+    try:
+        project = await db.projects.find_one({"_id": ObjectId(project_id)})
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        return serialize_doc(project)
+    except Exception as e:
+        logger.error(f"Get project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.put("/projects/{project_id}")
+async def update_project(project_id: str, project: Project):
+    """Update project by ID"""
+    try:
+        now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        
+        existing = await db.projects.find_one({"_id": ObjectId(project_id)})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        if project.column_widths is None:
+            project.column_widths = ColumnWidths()
+        
+        project_dict = project.model_dump()
+        project_dict['created_at'] = existing.get('created_at', now)
+        project_dict['updated_at'] = now
+        project_dict['archived'] = is_project_archived(project_dict)
+        
+        await db.projects.update_one(
+            {"_id": ObjectId(project_id)},
+            {"$set": project_dict}
+        )
+        
+        updated = await db.projects.find_one({"_id": ObjectId(project_id)})
+        return serialize_doc(updated)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Update project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.delete("/projects/{project_id}")
+async def delete_project(project_id: str):
+    """Delete project by ID"""
+    try:
+        result = await db.projects.delete_one({"_id": ObjectId(project_id)})
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        return {"success": True, "message": "Project deleted"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Delete project failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/projects/{project_id}/export.csv")
+async def export_project_csv(project_id: str):
+    """Export project to CSV with DD-MM-YYYY dates"""
+    try:
+        project = await db.projects.find_one({"_id": ObjectId(project_id)})
+        if not project:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
         output = io.StringIO()
         writer = csv.writer(output)
         
@@ -134,219 +364,33 @@ async def export_csv_poc(project: MockProject):
         writer.writerow(['Date', 'Time From', 'Time To', 'Scene', 'Location', 'Cast', 'Notes'])
         
         # Write rows - one row per schedule item with its date
-        for day in project.days:
-            date_formatted = format_date_dd_mm_yyyy(day.date)
-            for row in day.rows:
-                if row.type == 'item':
+        for day in project.get('days', []):
+            date_formatted = format_date_dd_mm_yyyy(day['date'])
+            for row in day.get('rows', []):
+                if row['type'] == 'item':
                     writer.writerow([
                         date_formatted,
-                        row.time_from,
-                        row.time_to,
-                        row.scene,
-                        row.location,
-                        row.cast,
-                        row.notes
+                        row.get('time_from', ''),
+                        row.get('time_to', ''),
+                        row.get('scene', ''),
+                        row.get('location', ''),
+                        row.get('cast', ''),
+                        row.get('notes', '')
                     ])
-                elif row.type == 'text':
+                elif row['type'] == 'text':
                     # Text rows as section headers
-                    writer.writerow([date_formatted, '', '', row.notes, '', '', ''])
+                    writer.writerow([date_formatted, '', '', row.get('notes', ''), '', '', ''])
         
         output.seek(0)
         return StreamingResponse(
             iter([output.getvalue()]),
             media_type="text/csv",
-            headers={"Content-Disposition": f"attachment; filename={project.name}.csv"}
+            headers={"Content-Disposition": f"attachment; filename={project['name']}.csv"}
         )
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"CSV export failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@api_router.post("/projects/print-preview")
-async def print_preview_poc(project: MockProject):
-    """POC: Generate print preview HTML with proper text wrapping"""
-    try:
-        # Build HTML with print-optimized CSS
-        html = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>{project.name} - Print Preview</title>
-    <style>
-        @page {{
-            size: A4;
-            margin: 1cm;
-        }}
-        
-        body {{
-            font-family: Arial, sans-serif;
-            font-size: 10pt;
-            margin: 0;
-            padding: 20px;
-        }}
-        
-        .header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }}
-        
-        .project-title {{
-            font-size: 18pt;
-            font-weight: bold;
-        }}
-        
-        .logo {{
-            max-width: 150px;
-            max-height: 80px;
-            object-fit: contain;
-        }}
-        
-        .notes {{
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }}
-        
-        .schedule-day {{
-            margin-bottom: 20px;
-            page-break-inside: avoid;
-        }}
-        
-        .day-header {{
-            font-size: 12pt;
-            font-weight: bold;
-            background: #f0f0f0;
-            padding: 8px;
-            margin-bottom: 5px;
-        }}
-        
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }}
-        
-        th {{
-            background: #e0e0e0;
-            padding: 6px;
-            text-align: left;
-            font-weight: bold;
-            border: 1px solid #ccc;
-            font-size: 9pt;
-        }}
-        
-        td {{
-            padding: 6px;
-            border: 1px solid #ccc;
-            vertical-align: top;
-            overflow-wrap: anywhere;
-            word-wrap: break-word;
-            white-space: normal;
-        }}
-        
-        .text-row {{
-            background: #f9f9f9;
-            font-weight: bold;
-            text-align: center;
-        }}
-        
-        .col-time {{
-            width: 8%;
-        }}
-        
-        .col-scene {{
-            width: 15%;
-        }}
-        
-        .col-location {{
-            width: 20%;
-        }}
-        
-        .col-cast {{
-            width: 25%;
-        }}
-        
-        .col-notes {{
-            width: 24%;
-        }}
-        
-        @media print {{
-            body {{
-                padding: 0;
-            }}
-            
-            .schedule-day {{
-                page-break-inside: avoid;
-            }}
-            
-            tr {{
-                page-break-inside: avoid;
-            }}
-        }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div>
-            <div class="project-title">{project.name}</div>
-            {f'<div class="notes">{project.notes}</div>' if project.notes else ''}
-        </div>
-        {f'<img src="{project.logo_url}" class="logo" alt="Logo" />' if project.logo_url else ''}
-    </div>
-"""
-        
-        # Add schedule days
-        for day in project.days:
-            html += f"""
-    <div class="schedule-day">
-        <div class="day-header">{day.date}</div>
-        <table>
-            <thead>
-                <tr>
-                    <th class="col-time">Time From</th>
-                    <th class="col-time">Time To</th>
-                    <th class="col-scene">Scene</th>
-                    <th class="col-location">Location</th>
-                    <th class="col-cast">Cast</th>
-                    <th class="col-notes">Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-"""
-            for row in day.rows:
-                if row.type == 'text':
-                    html += f"""
-                <tr>
-                    <td colspan="6" class="text-row">{row.notes}</td>
-                </tr>
-"""
-                else:
-                    html += f"""
-                <tr>
-                    <td>{row.time_from}</td>
-                    <td>{row.time_to}</td>
-                    <td>{row.scene}</td>
-                    <td>{row.location}</td>
-                    <td>{row.cast}</td>
-                    <td>{row.notes}</td>
-                </tr>
-"""
-            html += """
-            </tbody>
-        </table>
-    </div>
-"""
-        
-        html += """
-</body>
-</html>
-"""
-        return HTMLResponse(content=html)
-    except Exception as e:
-        logger.error(f"Print preview failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
