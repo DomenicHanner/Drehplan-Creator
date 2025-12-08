@@ -18,6 +18,47 @@ function CalltimeRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
     transition,
   };
 
+  // Text row type for calltime
+  if (row.type === 'text') {
+    return (
+      <tr ref={setNodeRef} style={style} className="text-row" data-testid="calltime-text-row">
+        <td className="no-print">
+          <div
+            {...attributes}
+            {...listeners}
+            className="drag-handle cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-600"
+            data-testid="calltime-row-drag-handle"
+          >
+            <GripVertical className="h-4 w-4" />
+          </div>
+        </td>
+        <td colSpan="2">
+          <input
+            type="text"
+            value={row.name}
+            onChange={(e) => onUpdateRow({ ...row, name: e.target.value })}
+            placeholder="Section headline or note..."
+            className="font-semibold"
+            data-testid="calltime-text-row-input"
+          />
+        </td>
+        <td className="no-print">
+          {canRemove && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onRemoveRow}
+              className="text-slate-400 hover:text-red-600"
+              data-testid="remove-calltime-row-button"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          )}
+        </td>
+      </tr>
+    );
+  }
+
   return (
     <tr ref={setNodeRef} style={style} data-testid="calltime-row">
       <td className="no-print">
