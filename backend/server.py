@@ -89,12 +89,18 @@ class ColumnHeaders(BaseModel):
     notes: str = "Notes"
 
 
+class CalltimeHeaders(BaseModel):
+    time: str = "Time"
+    name: str = "Name"
+
+
 class Project(BaseModel):
     name: str
     notes: str = ""
     logo_url: str = ""
     column_widths: Optional[ColumnWidths] = None
     column_headers: Optional[ColumnHeaders] = None
+    calltime_headers: Optional[CalltimeHeaders] = None
     days: List[ScheduleDay] = []
     calltimes: List[Calltime] = []
     created_at: Optional[str] = None
