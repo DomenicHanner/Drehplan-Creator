@@ -88,20 +88,6 @@ function ScheduleEditor({ project, onProjectChange }) {
     onProjectChange({ ...project, calltimes: [...(project.calltimes || []), newCalltime] });
   };
 
-  const handleRemoveDay = (dayId) => {
-    onProjectChange({
-      ...project,
-      days: project.days.filter(day => day.id !== dayId)
-    });
-  };
-
-  const handleRemoveCalltime = (calltimeId) => {
-    onProjectChange({
-      ...project,
-      calltimes: (project.calltimes || []).filter(ct => ct.id !== calltimeId)
-    });
-  };
-
   const handleUpdateDay = (dayId, updatedDay) => {
     onProjectChange({
       ...project,
@@ -113,6 +99,28 @@ function ScheduleEditor({ project, onProjectChange }) {
     onProjectChange({
       ...project,
       calltimes: (project.calltimes || []).map(ct => ct.id === calltimeId ? updatedCalltime : ct)
+    });
+  };
+
+  const handleRemoveDay = (dayId) => {
+    // Separate the items
+    const days = allItems.filter(item => item.itemType === 'day' && item.id !== dayId).map(({ itemType, ...rest }) => rest);
+    const calltimes = allItems.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+    onProjectChange({
+      ...project,
+      days,
+      calltimes
+    });
+  };
+
+  const handleRemoveCalltime = (calltimeId) => {
+    // Separate the items
+    const days = allItems.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
+    const calltimes = allItems.filter(item => item.itemType === 'calltime' && item.id !== calltimeId).map(({ itemType, ...rest }) => rest);
+    onProjectChange({
+      ...project,
+      days,
+      calltimes
     });
   };
 
