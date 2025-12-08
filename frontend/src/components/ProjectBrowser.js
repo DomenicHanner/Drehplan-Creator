@@ -138,10 +138,10 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="active" className="mt-4">
-              <ProjectList items={projects.active} />
+              <ProjectList items={projects.active} isArchived={false} />
             </TabsContent>
             <TabsContent value="archived" className="mt-4">
-              <ProjectList items={projects.archived} />
+              <ProjectList items={projects.archived} isArchived={true} />
             </TabsContent>
           </Tabs>
         </DialogContent>
