@@ -123,11 +123,51 @@ function DaySection({ day, columnWidths, columnHeaders, onUpdateDay, onRemoveDay
           <thead>
             <tr>
               <th className="no-print" style={{ width: '40px' }}></th>
-              <th style={{ width: `${columnWidths?.time || 15}%` }}>Time</th>
-              <th style={{ width: `${columnWidths?.scene || 15}%` }}>Scene</th>
-              <th style={{ width: `${columnWidths?.location || 23}%` }}>Location</th>
-              <th style={{ width: `${columnWidths?.cast || 23}%` }}>Cast</th>
-              <th style={{ width: `${columnWidths?.notes || 24}%` }}>Notes</th>
+              <th style={{ width: `${columnWidths?.time || 15}%` }}>
+                <input
+                  type="text"
+                  value={columnHeaders?.time || 'Time'}
+                  onChange={(e) => onUpdateHeaders({ ...columnHeaders, time: e.target.value })}
+                  className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
+                  placeholder="Time"
+                />
+              </th>
+              <th style={{ width: `${columnWidths?.scene || 15}%` }}>
+                <input
+                  type="text"
+                  value={columnHeaders?.scene || 'Scene'}
+                  onChange={(e) => onUpdateHeaders({ ...columnHeaders, scene: e.target.value })}
+                  className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
+                  placeholder="Scene"
+                />
+              </th>
+              <th style={{ width: `${columnWidths?.location || 23}%` }}>
+                <input
+                  type="text"
+                  value={columnHeaders?.location || 'Location'}
+                  onChange={(e) => onUpdateHeaders({ ...columnHeaders, location: e.target.value })}
+                  className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
+                  placeholder="Location"
+                />
+              </th>
+              <th style={{ width: `${columnWidths?.cast || 23}%` }}>
+                <input
+                  type="text"
+                  value={columnHeaders?.cast || 'Cast'}
+                  onChange={(e) => onUpdateHeaders({ ...columnHeaders, cast: e.target.value })}
+                  className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
+                  placeholder="Cast"
+                />
+              </th>
+              <th style={{ width: `${columnWidths?.notes || 24}%` }}>
+                <input
+                  type="text"
+                  value={columnHeaders?.notes || 'Notes'}
+                  onChange={(e) => onUpdateHeaders({ ...columnHeaders, notes: e.target.value })}
+                  className="font-semibold text-xs bg-transparent border-none w-full focus:outline-none focus:ring-1 focus:ring-blue-600 px-1 rounded"
+                  placeholder="Notes"
+                />
+              </th>
               <th className="no-print" style={{ width: '60px' }}></th>
             </tr>
           </thead>
