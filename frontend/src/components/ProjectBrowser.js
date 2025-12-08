@@ -48,7 +48,7 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
     }
   };
 
-  const ProjectList = ({ items }) => {
+  const ProjectList = ({ items, isArchived }) => {
     if (items.length === 0) {
       return (
         <div className="text-center py-12 text-slate-500">
@@ -83,6 +83,26 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
                 data-testid="load-project-button"
               >
                 Open
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleArchiveToggle(project.id, isArchived)}
+                disabled={archivingId === project.id}
+                className="text-slate-600 hover:text-slate-900"
+                data-testid="archive-project-button"
+              >
+                {isArchived ? (
+                  <>
+                    <ArchiveRestore className="h-4 w-4 mr-1" />
+                    Unarchive
+                  </>
+                ) : (
+                  <>
+                    <Archive className="h-4 w-4 mr-1" />
+                    Archive
+                  </>
+                )}
               </Button>
               <Button
                 variant="ghost"
