@@ -20,11 +20,10 @@ function ColumnWidthControls({ columnWidths, onChange }) {
 
   const resetWidths = () => {
     onChange({
-      time_from: 8,
-      time_to: 8,
+      time: 15,
       scene: 15,
-      location: 20,
-      cast: 25,
+      location: 23,
+      cast: 23,
       notes: 24
     });
   };
