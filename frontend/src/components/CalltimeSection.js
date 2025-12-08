@@ -119,8 +119,8 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
           <thead>
             <tr>
               <th className="no-print" style={{ width: '40px' }}></th>
-              <th style={{ width: '30%' }}>Time</th>
-              <th style={{ width: '70%' }}>Name</th>
+              <th style={{ width: '15%' }}>Time</th>
+              <th style={{ width: '85%' }}>Name</th>
               <th className="no-print" style={{ width: '40px' }}></th>
             </tr>
           </thead>
