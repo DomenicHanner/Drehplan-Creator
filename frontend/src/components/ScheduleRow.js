@@ -73,19 +73,10 @@ function ScheduleRow({ row, onUpdateRow, onRemoveRow, canRemove }) {
       <td>
         <input
           type="text"
-          value={row.time_from}
-          onChange={(e) => onUpdateRow({ ...row, time_from: e.target.value })}
-          placeholder="08:00"
-          data-testid="time-from-input"
-        />
-      </td>
-      <td>
-        <input
-          type="text"
-          value={row.time_to}
-          onChange={(e) => onUpdateRow({ ...row, time_to: e.target.value })}
-          placeholder="10:00"
-          data-testid="time-to-input"
+          value={row.time}
+          onChange={(e) => onUpdateRow({ ...row, time: e.target.value })}
+          placeholder="08:00-10:00"
+          data-testid="time-input"
         />
       </td>
       <td>
