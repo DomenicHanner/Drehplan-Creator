@@ -86,6 +86,11 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2">
+            <ColumnWidthControls
+              columnWidths={project.column_widths}
+              onChange={(widths) => onProjectChange({ ...project, column_widths: widths })}
+            />
+
             <div>
               <input
                 type="file"
