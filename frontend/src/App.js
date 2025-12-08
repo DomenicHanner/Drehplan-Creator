@@ -34,6 +34,13 @@ function App() {
         cast: 23,
         notes: 24
       },
+      column_headers: {
+        time: 'Time',
+        scene: 'Scene',
+        location: 'Location',
+        cast: 'Cast',
+        notes: 'Notes'
+      },
       days: [
         {
           id: Date.now().toString(),
