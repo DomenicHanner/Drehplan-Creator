@@ -1,5 +1,7 @@
 import React from 'react';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+
 function PrintView({ project }) {
   return (
     <div className="print-view p-8" style={{ maxWidth: '210mm', margin: '0 auto' }}>
@@ -13,7 +15,7 @@ function PrintView({ project }) {
         </div>
         {project.logo_url && (
           <img
-            src={project.logo_url}
+            src={`${BACKEND_URL}${project.logo_url}`}
             alt="Logo"
             className="max-w-[150px] max-h-[80px] object-contain ml-4"
           />
@@ -31,15 +33,9 @@ function PrintView({ project }) {
               <tr>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: `${project.column_widths?.time_from || 8}%` }}
+                  style={{ width: `${project.column_widths?.time || 15}%` }}
                 >
-                  Time From
-                </th>
-                <th
-                  className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: `${project.column_widths?.time_to || 8}%` }}
-                >
-                  Time To
+                  Time
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
@@ -49,13 +45,13 @@ function PrintView({ project }) {
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: `${project.column_widths?.location || 20}%` }}
+                  style={{ width: `${project.column_widths?.location || 23}%` }}
                 >
                   Location
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: `${project.column_widths?.cast || 25}%` }}
+                  style={{ width: `${project.column_widths?.cast || 23}%` }}
                 >
                   Cast
                 </th>
@@ -72,7 +68,7 @@ function PrintView({ project }) {
                 row.type === 'text' ? (
                   <tr key={row.id}>
                     <td
-                      colSpan="6"
+                      colSpan="5"
                       className="border border-slate-300 bg-slate-50 px-2 py-1 text-center font-semibold text-sm"
                       style={{
                         overflowWrap: 'anywhere',
@@ -93,17 +89,7 @@ function PrintView({ project }) {
                         whiteSpace: 'normal'
                       }}
                     >
-                      {row.time_from}
-                    </td>
-                    <td
-                      className="border border-slate-300 px-2 py-1 text-xs"
-                      style={{
-                        overflowWrap: 'anywhere',
-                        wordWrap: 'break-word',
-                        whiteSpace: 'normal'
-                      }}
-                    >
-                      {row.time_to}
+                      {row.time}
                     </td>
                     <td
                       className="border border-slate-300 px-2 py-1 text-xs"
