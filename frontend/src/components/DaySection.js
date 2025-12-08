@@ -123,11 +123,10 @@ function DaySection({ day, columnWidths, onUpdateDay, onRemoveDay, canRemove }) 
           <thead>
             <tr>
               <th className="no-print" style={{ width: '40px' }}></th>
-              <th style={{ width: `${columnWidths?.time_from || 8}%` }}>Time From</th>
-              <th style={{ width: `${columnWidths?.time_to || 8}%` }}>Time To</th>
+              <th style={{ width: `${columnWidths?.time || 15}%` }}>Time</th>
               <th style={{ width: `${columnWidths?.scene || 15}%` }}>Scene</th>
-              <th style={{ width: `${columnWidths?.location || 20}%` }}>Location</th>
-              <th style={{ width: `${columnWidths?.cast || 25}%` }}>Cast</th>
+              <th style={{ width: `${columnWidths?.location || 23}%` }}>Location</th>
+              <th style={{ width: `${columnWidths?.cast || 23}%` }}>Cast</th>
               <th style={{ width: `${columnWidths?.notes || 24}%` }}>Notes</th>
               <th className="no-print" style={{ width: '40px' }}></th>
             </tr>
