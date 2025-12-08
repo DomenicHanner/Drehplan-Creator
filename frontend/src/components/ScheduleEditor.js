@@ -48,8 +48,7 @@ function ScheduleEditor({ project, onProjectChange }) {
         {
           id: Date.now().toString() + '-1',
           type: 'item',
-          time_from: '',
-          time_to: '',
+          time: '',
           scene: '',
           location: '',
           cast: '',
