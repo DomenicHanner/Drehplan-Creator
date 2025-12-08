@@ -21,11 +21,28 @@ import {
 
 function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
   const [deleteId, setDeleteId] = useState(null);
+  const [archivingId, setArchivingId] = useState(null);
 
   const handleDelete = () => {
     if (deleteId) {
       onDelete(deleteId);
       setDeleteId(null);
+    }
+  };
+
+  const handleArchiveToggle = async (projectId, isArchived) => {
+    setArchivingId(projectId);
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+      await axios.post(`${BACKEND_URL}/api/projects/${projectId}/archive`);
+      toast.success(isArchived ? 'Project unarchived' : 'Project archived');
+      // Reload projects
+      window.location.reload();
+    } catch (error) {
+      console.error('Archive toggle failed:', error);
+      toast.error('Failed to archive/unarchive project');
+    } finally {
+      setArchivingId(null);
     }
   };
 
