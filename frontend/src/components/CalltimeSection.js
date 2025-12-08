@@ -80,7 +80,7 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
   return (
     <div ref={setNodeRef} style={style} className="calltime-section mb-8 bg-white rounded-lg shadow-sm border border-slate-200">
       {/* Calltime Header */}
-      <div className="flex items-center justify-between p-4 bg-green-50 border-b border-green-200 rounded-t-lg">
+      <div className="flex items-center justify-between p-4 bg-slate-50 border-b border-slate-200 rounded-t-lg">
         <div className="flex items-center gap-3">
           <div
             {...attributes}
@@ -90,12 +90,12 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
           >
             <GripVertical className="h-5 w-5" />
           </div>
-          <Clock className="h-5 w-5 text-green-600" />
+          <Clock className="h-5 w-5 text-slate-600" />
           <Input
             type="text"
             value={calltime.title}
             onChange={(e) => onUpdateCalltime({ ...calltime, title: e.target.value })}
-            className="font-semibold text-slate-900 w-60 border-none shadow-none focus-visible:ring-2 focus-visible:ring-green-600"
+            className="font-semibold text-slate-900 w-60 border-none shadow-none focus-visible:ring-2 focus-visible:ring-blue-600"
             placeholder="Calltime Title"
             data-testid="calltime-title-input"
           />
