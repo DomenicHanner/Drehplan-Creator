@@ -7,7 +7,7 @@ import {
 } from './ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Button } from './ui/button';
-import { FolderOpen, Trash2, Calendar, Archive, ArchiveRestore } from 'lucide-react';
+import { FolderOpen, Trash2, Calendar, Archive, ArchiveRestore, Copy } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
