@@ -354,6 +354,9 @@ async def update_project(project_id: str, project: Project):
         if project.column_headers is None:
             project.column_headers = ColumnHeaders()
         
+        if project.calltime_headers is None:
+            project.calltime_headers = CalltimeHeaders()
+        
         project_dict = project.model_dump()
         project_dict['created_at'] = existing.get('created_at', now)
         project_dict['updated_at'] = now
