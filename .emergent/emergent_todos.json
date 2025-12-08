@@ -1,7 +1,7 @@
 [
   {
     "content": "Phase 1 POC: Create minimal backend endpoints (health, logo upload, CSV export, print preview)",
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "content": "Phase 1 POC: Create test_core.py to validate all POC endpoints and fix until working",
