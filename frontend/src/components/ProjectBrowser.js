@@ -100,6 +100,16 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
               <Button
                 variant="outline"
                 size="sm"
+                onClick={() => handleDuplicate(project.id)}
+                className="text-slate-600 hover:text-slate-900"
+                data-testid="duplicate-project-button"
+              >
+                <Copy className="h-4 w-4 mr-1" />
+                Duplicate
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => handleArchiveToggle(project.id, isArchived)}
                 disabled={archivingId === project.id}
                 className="text-slate-600 hover:text-slate-900"
