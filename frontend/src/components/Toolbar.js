@@ -6,6 +6,7 @@ import { Label } from './ui/label';
 import { Save, FolderOpen, FileDown, Printer, Upload, CheckCircle2, AlertCircle } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import ColumnWidthControls from './ColumnWidthControls';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
