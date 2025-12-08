@@ -106,7 +106,7 @@ function PrintView({ project }) {
                       style={{
                         overflowWrap: 'anywhere',
                         wordWrap: 'break-word',
-                        whiteSpace: 'normal'
+                        whiteSpace: 'pre-wrap'
                       }}
                     >
                       {row.location}
@@ -116,7 +116,7 @@ function PrintView({ project }) {
                       style={{
                         overflowWrap: 'anywhere',
                         wordWrap: 'break-word',
-                        whiteSpace: 'normal'
+                        whiteSpace: 'pre-wrap'
                       }}
                     >
                       {row.cast}
@@ -126,7 +126,7 @@ function PrintView({ project }) {
                       style={{
                         overflowWrap: 'anywhere',
                         wordWrap: 'break-word',
-                        whiteSpace: 'normal'
+                        whiteSpace: 'pre-wrap'
                       }}
                     >
                       {row.notes}
