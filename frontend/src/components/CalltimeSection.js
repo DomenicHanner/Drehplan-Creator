@@ -57,7 +57,7 @@ function CalltimeSection({ calltime, calltimeHeaders, onUpdateCalltime, onUpdate
     const newRow = {
       id: Date.now().toString(),
       type,
-      time: type === 'item' ? '' : undefined,
+      time: '',
       name: ''
     };
 
