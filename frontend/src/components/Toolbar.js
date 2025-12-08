@@ -111,7 +111,7 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
               <Button
                 size="sm"
                 onClick={onPrint}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-200"
                 data-testid="print-button"
               >
                 <Printer className="h-4 w-4 mr-2" />
@@ -136,6 +136,7 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
                     size="sm"
                     disabled={uploadingLogo}
                     asChild
+                    className="border-slate-300"
                     data-testid="upload-logo-button"
                   >
                     <span className="cursor-pointer">
@@ -151,6 +152,7 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
                 size="sm"
                 onClick={onExportCSV}
                 disabled={!project.id}
+                className="border-slate-300"
                 data-testid="export-csv-button"
               >
                 <FileDown className="h-4 w-4 mr-2" />
