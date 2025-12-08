@@ -35,31 +35,31 @@ function PrintView({ project }) {
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                   style={{ width: `${project.column_widths?.time || 15}%` }}
                 >
-                  Time
+                  {project.column_headers?.time || 'Time'}
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                   style={{ width: `${project.column_widths?.scene || 15}%` }}
                 >
-                  Scene
+                  {project.column_headers?.scene || 'Scene'}
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                   style={{ width: `${project.column_widths?.location || 23}%` }}
                 >
-                  Location
+                  {project.column_headers?.location || 'Location'}
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                   style={{ width: `${project.column_widths?.cast || 23}%` }}
                 >
-                  Cast
+                  {project.column_headers?.cast || 'Cast'}
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                   style={{ width: `${project.column_widths?.notes || 24}%` }}
                 >
-                  Notes
+                  {project.column_headers?.notes || 'Notes'}
                 </th>
               </tr>
             </thead>
