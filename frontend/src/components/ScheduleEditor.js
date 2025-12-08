@@ -14,6 +14,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import DaySection from './DaySection';
+import CalltimeSection from './CalltimeSection';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
 
@@ -34,6 +35,18 @@ function ScheduleEditor({ project, onProjectChange }) {
 
       const newDays = arrayMove(project.days, oldIndex, newIndex);
       onProjectChange({ ...project, days: newDays });
+    }
+  };
+
+  const handleCalltimeDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = project.calltimes.findIndex((ct) => ct.id === active.id);
+      const newIndex = project.calltimes.findIndex((ct) => ct.id === over.id);
+
+      const newCalltimes = arrayMove(project.calltimes, oldIndex, newIndex);
+      onProjectChange({ ...project, calltimes: newCalltimes });
     }
   };
 
@@ -60,10 +73,33 @@ function ScheduleEditor({ project, onProjectChange }) {
     onProjectChange({ ...project, days: [...project.days, newDay] });
   };
 
+  const handleAddCalltime = () => {
+    const newCalltime = {
+      id: Date.now().toString(),
+      title: 'Calltime',
+      rows: [
+        {
+          id: Date.now().toString() + '-1',
+          time: '',
+          name: ''
+        }
+      ]
+    };
+
+    onProjectChange({ ...project, calltimes: [...(project.calltimes || []), newCalltime] });
+  };
+
   const handleRemoveDay = (dayId) => {
     onProjectChange({
       ...project,
       days: project.days.filter(day => day.id !== dayId)
+    });
+  };
+
+  const handleRemoveCalltime = (calltimeId) => {
+    onProjectChange({
+      ...project,
+      calltimes: (project.calltimes || []).filter(ct => ct.id !== calltimeId)
     });
   };
 
@@ -74,8 +110,16 @@ function ScheduleEditor({ project, onProjectChange }) {
     });
   };
 
+  const handleUpdateCalltime = (calltimeId, updatedCalltime) => {
+    onProjectChange({
+      ...project,
+      calltimes: (project.calltimes || []).map(ct => ct.id === calltimeId ? updatedCalltime : ct)
+    });
+  };
+
   return (
     <div className="schedule-editor">
+      {/* Days Section */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -98,7 +142,31 @@ function ScheduleEditor({ project, onProjectChange }) {
         </SortableContext>
       </DndContext>
 
-      <div className="mt-6 no-print">
+      {/* Calltimes Section */}
+      {project.calltimes && project.calltimes.length > 0 && (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleCalltimeDragEnd}
+        >
+          <SortableContext
+            items={project.calltimes.map(ct => ct.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {project.calltimes.map((calltime) => (
+              <CalltimeSection
+                key={calltime.id}
+                calltime={calltime}
+                onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(calltime.id, updatedCalltime)}
+                onRemoveCalltime={() => handleRemoveCalltime(calltime.id)}
+                canRemove={true}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      )}
+
+      <div className="mt-6 flex gap-3 no-print">
         <Button
           onClick={handleAddDay}
           variant="outline"
@@ -107,6 +175,15 @@ function ScheduleEditor({ project, onProjectChange }) {
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Day
+        </Button>
+        <Button
+          onClick={handleAddCalltime}
+          variant="outline"
+          className="w-full md:w-auto"
+          data-testid="add-calltime-button"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add Calltime
         </Button>
       </div>
     </div>
