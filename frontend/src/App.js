@@ -49,6 +49,7 @@ function App() {
         {
           id: Date.now().toString(),
           date: formattedDate,
+          position: 0,
           rows: [
             {
               id: Date.now().toString() + '-1',
