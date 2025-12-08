@@ -1,34 +1,115 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.App {
+  min-height: 100vh;
+  background: var(--color-background);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.drag-handle {
+  cursor: grab;
+  touch-action: none;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.drag-handle:active {
+  cursor: grabbing;
 }
 
-.App-link {
-    color: #61dafb;
+.dragging {
+  opacity: 0.5;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid var(--color-border);
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.schedule-table th {
+  background: var(--color-slate-100);
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.schedule-table td {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.schedule-table tr:hover td {
+  background: var(--color-slate-50);
+}
+
+.schedule-table .text-row {
+  background: #f9f9f9;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.schedule-table input,
+.schedule-table textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  padding: 0;
+  resize: vertical;
+}
+
+.schedule-table input:focus,
+.schedule-table textarea:focus {
+  outline: 2px solid var(--color-blue-600);
+  outline-offset: -2px;
+  border-radius: 2px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .schedule-table {
+    display: none;
+  }
+
+  .schedule-cards {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .schedule-cards {
+    display: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .toolbar,
+  .no-print {
+    display: none !important;
+  }
+
+  .schedule-table {
+    font-size: 10pt;
+  }
+
+  .schedule-table th,
+  .schedule-table td {
+    padding: 6px;
+  }
+
+  body {
+    padding: 0;
+    margin: 0;
+  }
 }
