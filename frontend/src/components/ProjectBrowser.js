@@ -48,6 +48,19 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
     }
   };
 
+  const handleDuplicate = async (projectId) => {
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+      const response = await axios.post(`${BACKEND_URL}/api/projects/${projectId}/duplicate`);
+      toast.success(`Project duplicated: ${response.data.name}`);
+      // Reload projects
+      window.location.reload();
+    } catch (error) {
+      console.error('Duplicate failed:', error);
+      toast.error('Failed to duplicate project');
+    }
+  };
+
   const ProjectList = ({ items, isArchived }) => {
     if (items.length === 0) {
       return (
