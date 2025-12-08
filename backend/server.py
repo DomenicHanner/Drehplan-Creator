@@ -81,11 +81,20 @@ class ColumnWidths(BaseModel):
     notes: int = 24
 
 
+class ColumnHeaders(BaseModel):
+    time: str = "Time"
+    scene: str = "Scene"
+    location: str = "Location"
+    cast: str = "Cast"
+    notes: str = "Notes"
+
+
 class Project(BaseModel):
     name: str
     notes: str = ""
     logo_url: str = ""
     column_widths: Optional[ColumnWidths] = None
+    column_headers: Optional[ColumnHeaders] = None
     days: List[ScheduleDay] = []
     calltimes: List[Calltime] = []
     created_at: Optional[str] = None
