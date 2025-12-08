@@ -280,6 +280,10 @@ async def save_project(project: Project):
         if project.column_widths is None:
             project.column_widths = ColumnWidths()
         
+        # Set default column headers if not provided
+        if project.column_headers is None:
+            project.column_headers = ColumnHeaders()
+        
         # Auto-archive check
         project_dict = project.model_dump()
         project_dict['archived'] = is_project_archived(project_dict)
