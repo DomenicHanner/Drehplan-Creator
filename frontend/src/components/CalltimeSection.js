@@ -150,16 +150,25 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
         </table>
       </div>
 
-      {/* Add Row Button */}
+      {/* Add Row Buttons */}
       <div className="flex gap-2 p-4 no-print">
         <Button
-          onClick={handleAddRow}
+          onClick={() => handleAddRow('item')}
           variant="outline"
           size="sm"
           data-testid="add-calltime-row-button"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Row
+        </Button>
+        <Button
+          onClick={() => handleAddRow('text')}
+          variant="outline"
+          size="sm"
+          data-testid="add-calltime-text-row-button"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add Text Row
         </Button>
       </div>
     </div>
