@@ -83,6 +83,10 @@ function ScheduleEditor({ project, onProjectChange }) {
     const newCalltime = {
       id: Date.now().toString(),
       title: 'Calltime',
+      headers: {
+        time: 'Time',
+        name: 'Name'
+      },
       position: allItems.length,
       rows: [
         {
