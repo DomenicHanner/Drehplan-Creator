@@ -84,13 +84,13 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
   return (
     <>
       <Dialog open={true} onOpenChange={onClose}>
-        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Browse Projects</DialogTitle>
           </DialogHeader>
 
           <Tabs defaultValue="active" className="mt-4">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-100">
               <TabsTrigger value="active" data-testid="active-tab">
                 Active ({projects.active.length})
               </TabsTrigger>
@@ -109,7 +109,7 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
       </Dialog>
 
       <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Project</AlertDialogTitle>
             <AlertDialogDescription>
