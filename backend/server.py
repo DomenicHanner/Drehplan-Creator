@@ -61,6 +61,18 @@ class ScheduleDay(BaseModel):
     rows: List[ScheduleRow] = []
 
 
+class CalltimeRow(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    time: str = ""
+    name: str = ""
+
+
+class Calltime(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str = "Calltime"
+    rows: List[CalltimeRow] = []
+
+
 class ColumnWidths(BaseModel):
     time: int = 15
     scene: int = 15
@@ -75,6 +87,7 @@ class Project(BaseModel):
     logo_url: str = ""
     column_widths: Optional[ColumnWidths] = None
     days: List[ScheduleDay] = []
+    calltimes: List[Calltime] = []
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
     archived: bool = False
