@@ -340,6 +340,9 @@ async def update_project(project_id: str, project: Project):
         if project.column_widths is None:
             project.column_widths = ColumnWidths()
         
+        if project.column_headers is None:
+            project.column_headers = ColumnHeaders()
+        
         project_dict = project.model_dump()
         project_dict['created_at'] = existing.get('created_at', now)
         project_dict['updated_at'] = now
