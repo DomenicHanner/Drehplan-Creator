@@ -118,7 +118,7 @@ function DaySection({ day, columnWidths, onUpdateDay, onRemoveDay, canRemove }) 
       </div>
 
       {/* Schedule Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-visible">
         <table className="schedule-table w-full">
           <thead>
             <tr>
