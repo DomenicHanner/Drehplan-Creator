@@ -150,13 +150,13 @@ function PrintView({ project }) {
               <tr>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: '30%' }}
+                  style={{ width: '15%' }}
                 >
                   Time
                 </th>
                 <th
                   className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
-                  style={{ width: '70%' }}
+                  style={{ width: '85%' }}
                 >
                   Name
                 </th>
