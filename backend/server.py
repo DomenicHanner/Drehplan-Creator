@@ -72,6 +72,7 @@ class CalltimeRow(BaseModel):
 class Calltime(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str = "Calltime"
+    headers: Optional[CalltimeHeaders] = None
     rows: List[CalltimeRow] = []
     position: int = 0
 
