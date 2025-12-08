@@ -69,6 +69,11 @@ class CalltimeRow(BaseModel):
     type: str = "item"  # 'item' or 'text'
 
 
+class CalltimeHeaders(BaseModel):
+    time: str = "Time"
+    name: str = "Name"
+
+
 class Calltime(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str = "Calltime"
