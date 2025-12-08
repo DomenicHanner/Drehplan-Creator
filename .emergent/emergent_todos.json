@@ -13,7 +13,7 @@
   },
   {
     "content": "Phase 2: Get design guidelines from design_agent",
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "content": "Phase 2: Build complete backend (MongoDB models, all CRUD endpoints, CSV/print endpoints, static file serving)",
