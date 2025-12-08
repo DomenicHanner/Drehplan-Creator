@@ -156,13 +156,13 @@ function PrintView({ project }) {
                     className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                     style={{ width: '15%' }}
                   >
-                    {project.calltime_headers?.time || 'Time'}
+                    {item.headers?.time || 'Time'}
                   </th>
                   <th
                     className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
                     style={{ width: '85%' }}
                   >
-                    {project.calltime_headers?.name || 'Name'}
+                    {item.headers?.name || 'Name'}
                   </th>
                 </tr>
               </thead>
