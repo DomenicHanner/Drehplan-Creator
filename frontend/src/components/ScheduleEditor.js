@@ -89,16 +89,38 @@ function ScheduleEditor({ project, onProjectChange }) {
   };
 
   const handleUpdateDay = (dayId, updatedDay) => {
+    // Update using the current order from allItems
+    const days = allItems
+      .filter(item => item.itemType === 'day')
+      .map(item => item.id === dayId ? { ...updatedDay, itemType: 'day' } : item)
+      .map(({ itemType, ...rest }) => rest);
+    
+    const calltimes = allItems
+      .filter(item => item.itemType === 'calltime')
+      .map(({ itemType, ...rest }) => rest);
+    
     onProjectChange({
       ...project,
-      days: project.days.map(day => day.id === dayId ? updatedDay : day)
+      days,
+      calltimes
     });
   };
 
   const handleUpdateCalltime = (calltimeId, updatedCalltime) => {
+    // Update using the current order from allItems
+    const days = allItems
+      .filter(item => item.itemType === 'day')
+      .map(({ itemType, ...rest }) => rest);
+    
+    const calltimes = allItems
+      .filter(item => item.itemType === 'calltime')
+      .map(item => item.id === calltimeId ? { ...updatedCalltime, itemType: 'calltime' } : item)
+      .map(({ itemType, ...rest }) => rest);
+    
     onProjectChange({
       ...project,
-      calltimes: (project.calltimes || []).map(ct => ct.id === calltimeId ? updatedCalltime : ct)
+      days,
+      calltimes
     });
   };
 
