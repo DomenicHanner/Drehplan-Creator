@@ -118,52 +118,38 @@ function ScheduleEditor({ project, onProjectChange }) {
 
   return (
     <div className="schedule-editor">
-      {/* Days Section */}
+      {/* Combined Days and Calltimes - all sortable together */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragEnd={handleDayDragEnd}
+        onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={project.days.map(day => day.id)}
+          items={allItems.map(item => item.id)}
           strategy={verticalListSortingStrategy}
         >
-          {project.days.map((day) => (
-            <DaySection
-              key={day.id}
-              day={day}
-              columnWidths={project.column_widths}
-              onUpdateDay={(updatedDay) => handleUpdateDay(day.id, updatedDay)}
-              onRemoveDay={() => handleRemoveDay(day.id)}
-              canRemove={project.days.length > 1}
-            />
+          {allItems.map((item) => (
+            item.itemType === 'day' ? (
+              <DaySection
+                key={item.id}
+                day={item}
+                columnWidths={project.column_widths}
+                onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
+                onRemoveDay={() => handleRemoveDay(item.id)}
+                canRemove={project.days.length > 1}
+              />
+            ) : (
+              <CalltimeSection
+                key={item.id}
+                calltime={item}
+                onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
+                onRemoveCalltime={() => handleRemoveCalltime(item.id)}
+                canRemove={true}
+              />
+            )
           ))}
         </SortableContext>
       </DndContext>
-
-      {/* Calltimes Section */}
-      {project.calltimes && project.calltimes.length > 0 && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleCalltimeDragEnd}
-        >
-          <SortableContext
-            items={project.calltimes.map(ct => ct.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            {project.calltimes.map((calltime) => (
-              <CalltimeSection
-                key={calltime.id}
-                calltime={calltime}
-                onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(calltime.id, updatedCalltime)}
-                onRemoveCalltime={() => handleRemoveCalltime(calltime.id)}
-                canRemove={true}
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
-      )}
 
       <div className="mt-6 flex gap-3 no-print">
         <Button
