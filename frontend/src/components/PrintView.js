@@ -76,7 +76,7 @@ function PrintView({ project }) {
                     <tr key={row.id}>
                       <td
                         colSpan="5"
-                        className="border border-slate-300 bg-slate-50 px-2 py-1 text-center font-semibold text-sm"
+                        className="border border-slate-300 bg-slate-50 px-2 py-1 text-left font-semibold text-sm"
                         style={{
                           overflowWrap: 'anywhere',
                           wordWrap: 'break-word',
