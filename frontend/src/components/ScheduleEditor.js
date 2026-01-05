@@ -63,6 +63,7 @@ function ScheduleEditor({ project, onProjectChange }) {
       id: Date.now().toString(),
       date: formattedDate,
       position: allItems.length,
+      icon: 'calendar',
       rows: [
         {
           id: Date.now().toString() + '-1',
