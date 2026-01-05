@@ -165,40 +165,64 @@ function ScheduleEditor({ project, onProjectChange }) {
 
   return (
     <div className="schedule-editor">
-      {/* Combined Days and Calltimes - all sortable together */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={allItems.map(item => item.id)}
-          strategy={verticalListSortingStrategy}
+      {/* Desktop View */}
+      <div className="hidden md:block">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
         >
-          {allItems.map((item) => (
-            item.itemType === 'day' ? (
-              <DaySection
-                key={item.id}
-                day={item}
-                columnWidths={project.column_widths}
-                columnHeaders={project.column_headers}
-                onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
-                onUpdateHeaders={(updatedHeaders) => onProjectChange({ ...project, column_headers: updatedHeaders })}
-                onRemoveDay={() => handleRemoveDay(item.id)}
-                canRemove={project.days.length > 1}
-              />
-            ) : (
-              <CalltimeSection
-                key={item.id}
-                calltime={item}
-                onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
-                onRemoveCalltime={() => handleRemoveCalltime(item.id)}
-                canRemove={true}
-              />
-            )
-          ))}
-        </SortableContext>
-      </DndContext>
+          <SortableContext
+            items={allItems.map(item => item.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {allItems.map((item) => (
+              item.itemType === 'day' ? (
+                <DaySection
+                  key={item.id}
+                  day={item}
+                  columnWidths={project.column_widths}
+                  columnHeaders={project.column_headers}
+                  onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
+                  onUpdateHeaders={(updatedHeaders) => onProjectChange({ ...project, column_headers: updatedHeaders })}
+                  onRemoveDay={() => handleRemoveDay(item.id)}
+                  canRemove={project.days.length > 1}
+                />
+              ) : (
+                <CalltimeSection
+                  key={item.id}
+                  calltime={item}
+                  onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
+                  onRemoveCalltime={() => handleRemoveCalltime(item.id)}
+                  canRemove={true}
+                />
+              )
+            ))}
+          </SortableContext>
+        </DndContext>
+      </div>
+
+      {/* Mobile View */}
+      <div className="block md:hidden">
+        {allItems.map((item) => (
+          item.itemType === 'day' ? (
+            <DayCardMobile
+              key={item.id}
+              day={item}
+              onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
+              onRemoveDay={() => handleRemoveDay(item.id)}
+              canRemove={project.days.length > 1}
+            />
+          ) : (
+            <CalltimeCardMobile
+              key={item.id}
+              calltime={item}
+              onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
+              onRemoveCalltime={() => handleRemoveCalltime(item.id)}
+            />
+          )
+        ))}
+      </div>
 
       <div className="mt-6 flex gap-3 no-print">
         <Button
