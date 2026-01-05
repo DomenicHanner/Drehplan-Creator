@@ -93,18 +93,17 @@ code {
   .schedule-day {
     page-break-inside: avoid;
   }
-}
 
-/* Hide Emergent branding */
-iframe[src*="emergent"] {
-  display: none !important;
-}
+  /* Hide Emergent branding in print */
+  iframe[src*="emergent"] {
+    display: none !important;
+  }
 
-div[class*="emergent"] {
-  display: none !important;
-}
+  div[class*="emergent"] {
+    display: none !important;
+  }
 
-/* Hide any fixed/absolute positioned elements that might be branding */
-body > div:last-child:not(#root) {
-  display: none !important;
+  body > div:last-child:not(#root) {
+    display: none !important;
+  }
 }
