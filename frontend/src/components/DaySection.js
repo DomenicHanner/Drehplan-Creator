@@ -95,7 +95,10 @@ function DaySection({ day, columnWidths, columnHeaders, onUpdateDay, onRemoveDay
           >
             <GripVertical className="h-5 w-5" />
           </div>
-          <Calendar className="h-5 w-5 text-slate-600" />
+          <IconPicker
+            currentIcon={day.icon || 'calendar'}
+            onSelectIcon={(iconName) => onUpdateDay({ ...day, icon: iconName })}
+          />
           <Input
             type="text"
             value={day.date}
