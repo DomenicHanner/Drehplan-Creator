@@ -60,6 +60,7 @@ class ScheduleDay(BaseModel):
     date: str  # DD-MM-YYYY format
     rows: List[ScheduleRow] = []
     position: int = 0
+    icon: str = "calendar"
 
 
 class CalltimeRow(BaseModel):
@@ -80,6 +81,7 @@ class Calltime(BaseModel):
     headers: Optional[CalltimeHeaders] = None
     rows: List[CalltimeRow] = []
     position: int = 0
+    icon: str = "clock"
 
 
 class ColumnWidths(BaseModel):
