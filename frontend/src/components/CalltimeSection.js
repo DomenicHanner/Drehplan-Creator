@@ -92,7 +92,10 @@ function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemo
           >
             <GripVertical className="h-5 w-5" />
           </div>
-          <Clock className="h-5 w-5 text-slate-600" />
+          <IconPicker
+            currentIcon={calltime.icon || 'clock'}
+            onSelectIcon={(iconName) => onUpdateCalltime({ ...calltime, icon: iconName })}
+          />
           <Input
             type="text"
             value={calltime.title}
