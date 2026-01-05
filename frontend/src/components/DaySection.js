@@ -16,9 +16,10 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import ScheduleRow from './ScheduleRow';
+import IconPicker from './IconPicker';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { GripVertical, Plus, Trash2, Calendar } from 'lucide-react';
+import { GripVertical, Plus, Trash2 } from 'lucide-react';
 
 function DaySection({ day, columnWidths, columnHeaders, onUpdateDay, onRemoveDay, onUpdateHeaders, canRemove }) {
   const {
