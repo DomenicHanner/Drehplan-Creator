@@ -1,6 +1,20 @@
 import React from 'react';
+import { Calendar, Clock, Home, User, Car, AlertTriangle, Camera } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+const getIconComponent = (iconName) => {
+  const icons = {
+    calendar: Calendar,
+    clock: Clock,
+    home: Home,
+    user: User,
+    car: Car,
+    alert: AlertTriangle,
+    camera: Camera,
+  };
+  return icons[iconName] || Calendar;
+};
 
 function PrintView({ project }) {
   // Combine and sort by position (same as ScheduleEditor)
