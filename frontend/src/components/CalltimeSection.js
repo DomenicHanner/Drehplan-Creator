@@ -16,9 +16,10 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import CalltimeRow from './CalltimeRow';
+import IconPicker from './IconPicker';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { GripVertical, Plus, Trash2, Clock } from 'lucide-react';
+import { GripVertical, Plus, Trash2 } from 'lucide-react';
 
 function CalltimeSection({ calltime, onUpdateCalltime, onRemoveCalltime, canRemove }) {
   const {
