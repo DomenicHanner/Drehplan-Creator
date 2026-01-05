@@ -89,6 +89,7 @@ function ScheduleEditor({ project, onProjectChange }) {
         name: 'Name'
       },
       position: allItems.length,
+      icon: 'clock',
       rows: [
         {
           id: Date.now().toString() + '-1',
