@@ -94,16 +94,28 @@ code {
     page-break-inside: avoid;
   }
 
-  /* Hide Emergent branding in print */
-  iframe[src*="emergent"] {
+  /* Hide Emergent branding in print - aggressive rules */
+  iframe {
     display: none !important;
   }
 
-  div[class*="emergent"] {
+  [style*="position: fixed"],
+  [style*="position:fixed"] {
     display: none !important;
   }
 
-  body > div:last-child:not(#root) {
+  body > *:not(#root) {
     display: none !important;
   }
+
+  #root ~ * {
+    display: none !important;
+  }
+}
+
+/* Hide Emergent branding badge - only on screen, not in normal view */
+/* This attempts to hide it everywhere with high specificity */
+body > iframe[style*="position"] {
+  z-index: -9999 !important;
+  pointer-events: none !important;
 }
