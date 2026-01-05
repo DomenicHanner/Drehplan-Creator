@@ -46,7 +46,11 @@ function PrintView({ project }) {
       {allItems.map((item) => (
         item.itemType === 'day' ? (
           <div key={item.id} className="schedule-day mb-8">
-            <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-900 mb-2">
+            <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-900 mb-2 flex items-center gap-2">
+              {(() => {
+                const IconComponent = getIconComponent(item.icon);
+                return <IconComponent className="h-4 w-4" />;
+              })()}
               {item.date}
             </div>
             <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
