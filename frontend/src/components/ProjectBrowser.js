@@ -92,26 +92,28 @@ function ProjectBrowser({ projects, onClose, onLoad, onDelete }) {
             <div className="flex items-center gap-2 ml-4">
               <Button
                 onClick={() => onLoad(project.id)}
-                variant="outline"
                 size="sm"
+                className="bg-slate-600 hover:bg-slate-700 text-white"
                 data-testid="load-project-button"
               >
                 Open
               </Button>
               <Button
+                variant="outline"
                 size="sm"
                 onClick={() => handleDuplicate(project.id)}
-                className="bg-slate-600 hover:bg-slate-700 text-white"
+                className="text-slate-600 hover:text-slate-900"
                 data-testid="duplicate-project-button"
               >
                 <Copy className="h-4 w-4 mr-1" />
                 Duplicate
               </Button>
               <Button
+                variant="outline"
                 size="sm"
                 onClick={() => handleArchiveToggle(project.id, isArchived)}
                 disabled={archivingId === project.id}
-                className="bg-slate-600 hover:bg-slate-700 text-white"
+                className="text-slate-600 hover:text-slate-900"
                 data-testid="archive-project-button"
               >
                 {isArchived ? (
