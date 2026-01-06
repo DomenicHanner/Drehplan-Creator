@@ -29,10 +29,11 @@ function ScheduleEditor({ project, onProjectChange }) {
     })
   );
 
-  // Combine days and calltimes into a single sortable list, sorted by position
+  // Combine days, calltimes and crewInfos into a single sortable list, sorted by position
   const allItems = [
     ...project.days.map(day => ({ ...day, itemType: 'day' })),
-    ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' }))
+    ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' })),
+    ...(project.crewInfos || []).map(ci => ({ ...ci, itemType: 'crewInfo' }))
   ].sort((a, b) => (a.position || 0) - (b.position || 0));
 
   const handleDragEnd = (event) => {
