@@ -340,6 +340,11 @@ async def save_project(project: Project):
             if calltime.headers is None:
                 calltime.headers = CalltimeHeaders()
         
+        # Set default headers for each crew info if not provided
+        for crewInfo in project.crewInfos:
+            if crewInfo.headers is None:
+                crewInfo.headers = CrewInfoHeaders()
+        
         # Auto-archive check
         project_dict = project.model_dump()
         project_dict['archived'] = is_project_archived(project_dict)
