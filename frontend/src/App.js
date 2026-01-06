@@ -134,8 +134,8 @@ function App() {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/projects/${projectId}`);
       setCurrentProject(response.data);
-      setUnsavedChanges(false);
       setShowBrowser(false);
+      initialLoad.current = true; // Prevent autosave on load
       toast.success('Project loaded');
     } catch (error) {
       console.error('Load failed:', error);
