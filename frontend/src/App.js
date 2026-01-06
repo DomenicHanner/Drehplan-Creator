@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import ScheduleEditor from './components/ScheduleEditor';
 import ProjectBrowser from './components/ProjectBrowser';
@@ -10,13 +10,33 @@ import { toast } from 'sonner';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
+// Debounce function
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 function App() {
   const [currentProject, setCurrentProject] = useState(null);
   const [projects, setProjects] = useState({ active: [], archived: [] });
   const [showBrowser, setShowBrowser] = useState(false);
   const [showPrintView, setShowPrintView] = useState(false);
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [saving, setSaving] = useState(false);
+  const initialLoad = useRef(true);
+
+  // Debounce project changes for autosave
+  const debouncedProject = useDebounce(currentProject, 1500);
 
   // Initialize with new project
   useEffect(() => {
