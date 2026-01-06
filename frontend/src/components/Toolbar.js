@@ -61,16 +61,10 @@ function Toolbar({ project, onProjectChange, onBrowse, onExportCSV, onPrint, sav
                 placeholder="Project Name"
                 data-testid="project-name-input"
               />
-              {unsavedChanges && (
-                <span className="flex items-center gap-1 text-sm text-amber-600">
-                  <AlertCircle className="h-4 w-4" />
-                  Unsaved
-                </span>
-              )}
-              {!unsavedChanges && project.id && (
-                <span className="flex items-center gap-1 text-sm text-green-600">
-                  <CheckCircle2 className="h-4 w-4" />
-                  Saved
+              {saving && (
+                <span className="flex items-center gap-1 text-sm text-blue-600">
+                  <CheckCircle2 className="h-4 w-4 animate-pulse" />
+                  Saving...
                 </span>
               )}
             </div>
