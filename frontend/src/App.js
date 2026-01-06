@@ -156,7 +156,7 @@ function App() {
 
   const handleExportCSV = async () => {
     if (!currentProject || !currentProject.id) {
-      toast.error('Please save the project first');
+      toast.error('Please wait for project to save first');
       return;
     }
 
