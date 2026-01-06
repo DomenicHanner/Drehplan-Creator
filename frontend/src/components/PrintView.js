@@ -1,5 +1,20 @@
 import React from 'react';
-import { Calendar, Clock, Home, User, Car, AlertTriangle, Camera } from 'lucide-react';
+import { 
+  Calendar, 
+  Clock, 
+  Home, 
+  User, 
+  Car, 
+  AlertTriangle, 
+  Camera,
+  Phone,
+  Mail,
+  AlertCircle,
+  Coffee,
+  Sandwich,
+  Sun,
+  Moon
+} from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
@@ -12,6 +27,13 @@ const getIconComponent = (iconName) => {
     car: Car,
     alert: AlertTriangle,
     camera: Camera,
+    phone: Phone,
+    mail: Mail,
+    alertcircle: AlertCircle,
+    coffee: Coffee,
+    burger: Sandwich,
+    sun: Sun,
+    moon: Moon,
   };
   return icons[iconName] || Calendar;
 };
