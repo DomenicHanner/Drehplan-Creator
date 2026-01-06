@@ -4,7 +4,22 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from './ui/popover';
-import { Calendar, Clock, Home, User, Car, AlertTriangle, Camera } from 'lucide-react';
+import { 
+  Calendar, 
+  Clock, 
+  Home, 
+  User, 
+  Car, 
+  AlertTriangle, 
+  Camera,
+  Phone,
+  Mail,
+  AlertCircle,
+  Coffee,
+  Sandwich,
+  Sun,
+  Moon
+} from 'lucide-react';
 import { Button } from './ui/button';
 
 const ICONS = [
@@ -15,6 +30,13 @@ const ICONS = [
   { name: 'car', Icon: Car, label: 'Car' },
   { name: 'alert', Icon: AlertTriangle, label: 'Warning' },
   { name: 'camera', Icon: Camera, label: 'Camera' },
+  { name: 'phone', Icon: Phone, label: 'Phone' },
+  { name: 'mail', Icon: Mail, label: 'Mail' },
+  { name: 'alertcircle', Icon: AlertCircle, label: 'Alert' },
+  { name: 'coffee', Icon: Coffee, label: 'Coffee' },
+  { name: 'burger', Icon: Sandwich, label: 'Food' },
+  { name: 'sun', Icon: Sun, label: 'Sun' },
+  { name: 'moon', Icon: Moon, label: 'Moon' },
 ];
 
 function IconPicker({ currentIcon, onSelectIcon }) {
