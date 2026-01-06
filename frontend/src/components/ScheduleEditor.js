@@ -51,11 +51,12 @@ function ScheduleEditor({ project, onProjectChange }) {
         position: index
       }));
       
-      // Separate back into days and calltimes
+      // Separate back into days, calltimes and crewInfos
       const newDays = itemsWithPositions.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
       const newCalltimes = itemsWithPositions.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+      const newCrewInfos = itemsWithPositions.filter(item => item.itemType === 'crewInfo').map(({ itemType, ...rest }) => rest);
       
-      onProjectChange({ ...project, days: newDays, calltimes: newCalltimes });
+      onProjectChange({ ...project, days: newDays, calltimes: newCalltimes, crewInfos: newCrewInfos });
     }
   };
 
