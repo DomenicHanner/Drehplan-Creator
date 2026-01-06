@@ -131,6 +131,7 @@ class Project(BaseModel):
     column_headers: Optional[ColumnHeaders] = None
     days: List[ScheduleDay] = []
     calltimes: List[Calltime] = []
+    crewInfos: List[CrewInfo] = []
     created_at: Optional[str] = None
     updated_at: Optional[str] = None
     archived: bool = False
