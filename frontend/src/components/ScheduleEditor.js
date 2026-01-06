@@ -266,12 +266,20 @@ function ScheduleEditor({ project, onProjectChange }) {
                   onRemoveDay={() => handleRemoveDay(item.id)}
                   canRemove={true}
                 />
-              ) : (
+              ) : item.itemType === 'calltime' ? (
                 <CalltimeSection
                   key={item.id}
                   calltime={item}
                   onUpdateCalltime={(updatedCalltime) => handleUpdateCalltime(item.id, updatedCalltime)}
                   onRemoveCalltime={() => handleRemoveCalltime(item.id)}
+                  canRemove={true}
+                />
+              ) : (
+                <CrewInfoSection
+                  key={item.id}
+                  crewInfo={item}
+                  onUpdateCrewInfo={(updatedCrewInfo) => handleUpdateCrewInfo(item.id, updatedCrewInfo)}
+                  onRemoveCrewInfo={() => handleRemoveCrewInfo(item.id)}
                   canRemove={true}
                 />
               )
