@@ -146,6 +146,7 @@ class ProjectResponse(BaseModel):
     column_headers: ColumnHeaders
     days: List[ScheduleDay]
     calltimes: List[Calltime]
+    crewInfos: List[CrewInfo]
     created_at: str
     updated_at: str
     archived: bool
