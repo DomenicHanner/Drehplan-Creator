@@ -173,10 +173,12 @@ function ScheduleEditor({ project, onProjectChange }) {
     // Separate the items
     const days = allItems.filter(item => item.itemType === 'day' && item.id !== dayId).map(({ itemType, ...rest }) => rest);
     const calltimes = allItems.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+    const crewInfos = allItems.filter(item => item.itemType === 'crewInfo').map(({ itemType, ...rest }) => rest);
     onProjectChange({
       ...project,
       days,
-      calltimes
+      calltimes,
+      crewInfos
     });
   };
 
@@ -184,10 +186,25 @@ function ScheduleEditor({ project, onProjectChange }) {
     // Separate the items
     const days = allItems.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
     const calltimes = allItems.filter(item => item.itemType === 'calltime' && item.id !== calltimeId).map(({ itemType, ...rest }) => rest);
+    const crewInfos = allItems.filter(item => item.itemType === 'crewInfo').map(({ itemType, ...rest }) => rest);
     onProjectChange({
       ...project,
       days,
-      calltimes
+      calltimes,
+      crewInfos
+    });
+  };
+
+  const handleRemoveCrewInfo = (crewInfoId) => {
+    // Separate the items
+    const days = allItems.filter(item => item.itemType === 'day').map(({ itemType, ...rest }) => rest);
+    const calltimes = allItems.filter(item => item.itemType === 'calltime').map(({ itemType, ...rest }) => rest);
+    const crewInfos = allItems.filter(item => item.itemType === 'crewInfo' && item.id !== crewInfoId).map(({ itemType, ...rest }) => rest);
+    onProjectChange({
+      ...project,
+      days,
+      calltimes,
+      crewInfos
     });
   };
 
