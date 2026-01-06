@@ -53,7 +53,7 @@ function IconPicker({ currentIcon, onSelectIcon }) {
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-2 bg-white">
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           {ICONS.map(({ name, Icon, label }) => (
             <Button
               key={name}
