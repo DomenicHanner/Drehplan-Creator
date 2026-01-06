@@ -93,17 +93,6 @@ function Toolbar({ project, onProjectChange, onBrowse, onExportCSV, onPrint, sav
               </Button>
 
               <Button
-                variant="outline"
-                size="sm"
-                onClick={onSave}
-                disabled={saving}
-                data-testid="save-project-button"
-              >
-                <Save className="h-4 w-4 mr-2" />
-                {saving ? 'Saving...' : 'Save'}
-              </Button>
-
-              <Button
                 size="sm"
                 onClick={onPrint}
                 className="bg-slate-600 hover:bg-slate-700 text-white"
