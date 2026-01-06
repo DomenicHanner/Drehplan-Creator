@@ -119,7 +119,15 @@ function App() {
     
     setSaving(true);
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/projects/save`, currentProject);
+      let response;
+      
+      // If project has ID, update it. Otherwise create new
+      if (currentProject.id) {
+        response = await axios.put(`${BACKEND_URL}/api/projects/${currentProject.id}`, currentProject);
+      } else {
+        response = await axios.post(`${BACKEND_URL}/api/projects/save`, currentProject);
+      }
+      
       setCurrentProject(response.data);
       await loadProjects();
     } catch (error) {
