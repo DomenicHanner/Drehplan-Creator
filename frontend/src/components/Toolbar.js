@@ -110,10 +110,9 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
               </Button>
 
               <Button
-                variant="outline"
                 size="sm"
                 onClick={onPrint}
-                className="bg-slate-100 hover:bg-slate-200"
+                className="bg-slate-600 hover:bg-slate-700 text-white"
                 data-testid="print-button"
               >
                 <Printer className="h-4 w-4 mr-2" />
@@ -148,18 +147,6 @@ function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPr
                   </Button>
                 </Label>
               </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onExportCSV}
-                disabled={!project.id}
-                className="border-slate-300"
-                data-testid="export-csv-button"
-              >
-                <FileDown className="h-4 w-4 mr-2" />
-                CSV
-              </Button>
 
               <ColumnWidthControls
                 columnWidths={project.column_widths}
