@@ -85,6 +85,29 @@ function ScheduleEditor({ project, onProjectChange }) {
     onProjectChange({ ...project, days: [...project.days, newDay] });
   };
 
+  const handleAddCalltime = () => {
+    const newCalltime = {
+      id: Date.now().toString(),
+      title: 'Calltime',
+      headers: {
+        time: 'Time',
+        name: 'Name'
+      },
+      position: allItems.length,
+      icon: 'clock',
+      rows: [
+        {
+          id: Date.now().toString() + '-1',
+          type: 'item',
+          time: '',
+          name: ''
+        }
+      ]
+    };
+
+    onProjectChange({ ...project, calltimes: [...(project.calltimes || []), newCalltime] });
+  };
+
   const handleAddCrewInfo = () => {
     const newCrewInfo = {
       id: Date.now().toString(),
