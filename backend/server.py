@@ -162,11 +162,26 @@ def format_date_dd_mm_yyyy(date_str: str) -> str:
 
 
 def parse_date(date_str: str) -> datetime:
-    """Parse DD-MM-YYYY date string to datetime"""
-    try:
-        return datetime.strptime(date_str, "%d-%m-%Y")
-    except:
+    """Parse DD-MM-YYYY, DD.MM.YYYY, or DD.MM.YY date string to datetime"""
+    if not date_str:
         return datetime.now()
+    
+    # Try different formats
+    formats = [
+        "%d-%m-%Y",    # DD-MM-YYYY
+        "%d.%m.%Y",    # DD.MM.YYYY
+        "%d.%m.%y",    # DD.MM.YY
+        "%d-%m-%y",    # DD-MM-YY (bonus)
+    ]
+    
+    for fmt in formats:
+        try:
+            return datetime.strptime(date_str, fmt)
+        except:
+            continue
+    
+    # Fallback to current date if no format matches
+    return datetime.now()
 
 
 def is_project_archived(project: Dict) -> bool:
