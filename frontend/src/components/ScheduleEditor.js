@@ -144,10 +144,15 @@ function ScheduleEditor({ project, onProjectChange }) {
       .filter(item => item.itemType === 'calltime')
       .map(({ itemType, ...rest }) => rest);
     
+    const crewInfos = allItems
+      .filter(item => item.itemType === 'crewInfo')
+      .map(({ itemType, ...rest }) => rest);
+    
     onProjectChange({
       ...project,
       days,
-      calltimes
+      calltimes,
+      crewInfos
     });
   };
 
@@ -162,10 +167,38 @@ function ScheduleEditor({ project, onProjectChange }) {
       .map(item => item.id === calltimeId ? { ...updatedCalltime, itemType: 'calltime' } : item)
       .map(({ itemType, ...rest }) => rest);
     
+    const crewInfos = allItems
+      .filter(item => item.itemType === 'crewInfo')
+      .map(({ itemType, ...rest }) => rest);
+    
     onProjectChange({
       ...project,
       days,
-      calltimes
+      calltimes,
+      crewInfos
+    });
+  };
+
+  const handleUpdateCrewInfo = (crewInfoId, updatedCrewInfo) => {
+    // Update using the current order from allItems
+    const days = allItems
+      .filter(item => item.itemType === 'day')
+      .map(({ itemType, ...rest }) => rest);
+    
+    const calltimes = allItems
+      .filter(item => item.itemType === 'calltime')
+      .map(({ itemType, ...rest }) => rest);
+    
+    const crewInfos = allItems
+      .filter(item => item.itemType === 'crewInfo')
+      .map(item => item.id === crewInfoId ? { ...updatedCrewInfo, itemType: 'crewInfo' } : item)
+      .map(({ itemType, ...rest }) => rest);
+    
+    onProjectChange({
+      ...project,
+      days,
+      calltimes,
+      crewInfos
     });
   };
 
