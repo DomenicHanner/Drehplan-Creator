@@ -15,6 +15,7 @@ import {
 } from '@dnd-kit/sortable';
 import DaySection from './DaySection';
 import CalltimeSection from './CalltimeSection';
+import CrewInfoSection from './CrewInfoSection';
 import DayCardMobile from './DayCardMobile';
 import CalltimeCardMobile from './CalltimeCardMobile';
 import { Button } from './ui/button';
