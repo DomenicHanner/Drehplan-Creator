@@ -186,7 +186,7 @@ function ScheduleEditor({ project, onProjectChange }) {
                   onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
                   onUpdateHeaders={(updatedHeaders) => onProjectChange({ ...project, column_headers: updatedHeaders })}
                   onRemoveDay={() => handleRemoveDay(item.id)}
-                  canRemove={project.days.length > 1}
+                  canRemove={true}
                 />
               ) : (
                 <CalltimeSection
