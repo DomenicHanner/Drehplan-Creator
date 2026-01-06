@@ -80,12 +80,25 @@ function App() {
           ]
         }
       ],
-      calltimes: []
+      calltimes: [],
+      crewInfos: []
     };
     
     setCurrentProject(newProject);
     loadProjects();
   }, []);
+
+  // Autosave effect
+  useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
+
+    if (debouncedProject && debouncedProject.name && debouncedProject.name !== 'Untitled Project') {
+      handleSave();
+    }
+  }, [debouncedProject]);
 
   const loadProjects = async () => {
     try {
