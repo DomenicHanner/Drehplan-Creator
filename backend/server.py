@@ -409,6 +409,11 @@ async def update_project(project_id: str, project: Project):
             if calltime.headers is None:
                 calltime.headers = CalltimeHeaders()
         
+        # Set default headers for each crew info if not provided
+        for crewInfo in project.crewInfos:
+            if crewInfo.headers is None:
+                crewInfo.headers = CrewInfoHeaders()
+        
         project_dict = project.model_dump()
         project_dict['created_at'] = existing.get('created_at', now)
         project_dict['updated_at'] = now
