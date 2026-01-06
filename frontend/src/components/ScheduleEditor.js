@@ -310,7 +310,7 @@ function ScheduleEditor({ project, onProjectChange }) {
         ))}
       </div>
 
-      <div className="mt-6 flex gap-3 no-print">
+      <div className="mt-6 flex gap-3 no-print flex-wrap">
         <Button
           onClick={handleAddDay}
           variant="outline"
@@ -328,6 +328,15 @@ function ScheduleEditor({ project, onProjectChange }) {
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Calltime
+        </Button>
+        <Button
+          onClick={handleAddCrewInfo}
+          variant="outline"
+          className="w-full md:w-auto"
+          data-testid="add-crew-info-button"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add Crew Info
         </Button>
       </div>
     </div>
