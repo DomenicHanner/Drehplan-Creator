@@ -65,7 +65,7 @@ function PrintView({ project }) {
         )}
       </div>
 
-      {/* Schedule and Calltimes in correct order */}
+      {/* Schedule, Calltimes and Crew Infos in correct order */}
       {allItems.map((item) => (
         item.itemType === 'day' ? (
           <div key={item.id} className="schedule-day mb-8">
