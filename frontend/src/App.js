@@ -112,7 +112,6 @@ function App() {
 
   const handleProjectChange = (updatedProject) => {
     setCurrentProject(updatedProject);
-    setUnsavedChanges(true);
   };
 
   const handleSave = async () => {
@@ -122,8 +121,6 @@ function App() {
     try {
       const response = await axios.post(`${BACKEND_URL}/api/projects/save`, currentProject);
       setCurrentProject(response.data);
-      setUnsavedChanges(false);
-      toast.success('Project saved successfully');
       await loadProjects();
     } catch (error) {
       console.error('Save failed:', error);
