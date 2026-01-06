@@ -185,7 +185,7 @@ function PrintView({ project }) {
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : item.itemType === 'calltime' ? (
           <div key={item.id} className="calltime-section mb-8">
             <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-900 mb-2 flex items-center gap-2">
               {(() => {
