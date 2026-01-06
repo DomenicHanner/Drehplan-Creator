@@ -42,7 +42,8 @@ function PrintView({ project }) {
   // Combine and sort by position (same as ScheduleEditor)
   const allItems = [
     ...project.days.map(day => ({ ...day, itemType: 'day' })),
-    ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' }))
+    ...(project.calltimes || []).map(ct => ({ ...ct, itemType: 'calltime' })),
+    ...(project.crewInfos || []).map(ci => ({ ...ci, itemType: 'crewInfo' }))
   ].sort((a, b) => (a.position || 0) - (b.position || 0));
 
   return (
