@@ -255,6 +255,92 @@ function PrintView({ project }) {
               </tbody>
             </table>
           </div>
+        ) : (
+          <div key={item.id} className="crew-info-section mb-8">
+            <div className="bg-slate-100 px-4 py-2 font-semibold text-slate-900 mb-2 flex items-center gap-2">
+              {(() => {
+                const IconComponent = getIconComponent(item.icon);
+                return <IconComponent className="h-4 w-4" />;
+              })()}
+              {item.title}
+            </div>
+            <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
+              <thead>
+                <tr>
+                  <th
+                    className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
+                    style={{ width: '25%' }}
+                  >
+                    {item.headers?.name || 'Name'}
+                  </th>
+                  <th
+                    className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
+                    style={{ width: '20%' }}
+                  >
+                    {item.headers?.crew || 'Crew'}
+                  </th>
+                  <th
+                    className="border border-slate-300 bg-slate-50 px-2 py-1 text-left text-xs font-semibold"
+                    style={{ width: '55%' }}
+                  >
+                    {item.headers?.info || 'Info'}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {item.rows.map((row) => (
+                  row.type === 'text' ? (
+                    <tr key={row.id}>
+                      <td
+                        colSpan="3"
+                        className="border border-slate-300 bg-slate-50 px-2 py-1 text-left font-semibold text-sm"
+                        style={{
+                          overflowWrap: 'anywhere',
+                          wordWrap: 'break-word',
+                          whiteSpace: 'normal'
+                        }}
+                      >
+                        {row.name}
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr key={row.id}>
+                      <td
+                        className="border border-slate-300 px-2 py-1 text-xs"
+                        style={{
+                          overflowWrap: 'anywhere',
+                          wordWrap: 'break-word',
+                          whiteSpace: 'normal'
+                        }}
+                      >
+                        {row.name}
+                      </td>
+                      <td
+                        className="border border-slate-300 px-2 py-1 text-xs"
+                        style={{
+                          overflowWrap: 'anywhere',
+                          wordWrap: 'break-word',
+                          whiteSpace: 'normal'
+                        }}
+                      >
+                        {row.crew}
+                      </td>
+                      <td
+                        className="border border-slate-300 px-2 py-1 text-xs"
+                        style={{
+                          overflowWrap: 'anywhere',
+                          wordWrap: 'break-word',
+                          whiteSpace: 'normal'
+                        }}
+                      >
+                        {row.info}
+                      </td>
+                    </tr>
+                  )
+                ))}
+              </tbody>
+            </table>
+          </div>
         )
       ))}
     </div>
