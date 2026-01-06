@@ -211,7 +211,7 @@ function ScheduleEditor({ project, onProjectChange }) {
               day={item}
               onUpdateDay={(updatedDay) => handleUpdateDay(item.id, updatedDay)}
               onRemoveDay={() => handleRemoveDay(item.id)}
-              canRemove={project.days.length > 1}
+              canRemove={true}
             />
           ) : (
             <CalltimeCardMobile
