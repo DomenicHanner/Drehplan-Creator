@@ -10,7 +10,7 @@ import ColumnWidthControls from './ColumnWidthControls';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
 
-function Toolbar({ project, onProjectChange, onSave, onBrowse, onExportCSV, onPrint, unsavedChanges, saving }) {
+function Toolbar({ project, onProjectChange, onBrowse, onExportCSV, onPrint, saving }) {
   const [uploadingLogo, setUploadingLogo] = useState(false);
 
   const handleLogoUpload = async (e) => {
