@@ -84,6 +84,29 @@ class Calltime(BaseModel):
     icon: str = "clock"
 
 
+class CrewInfoRow(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str = ""
+    crew: str = ""
+    info: str = ""
+    type: str = "item"  # 'item' or 'text'
+
+
+class CrewInfoHeaders(BaseModel):
+    name: str = "Name"
+    crew: str = "Crew"
+    info: str = "Info"
+
+
+class CrewInfo(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str = "Crew Info"
+    headers: Optional[CrewInfoHeaders] = None
+    rows: List[CrewInfoRow] = []
+    position: int = 0
+    icon: str = "phone"
+
+
 class ColumnWidths(BaseModel):
     time: int = 15
     scene: int = 15
