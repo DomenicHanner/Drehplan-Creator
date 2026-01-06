@@ -208,11 +208,9 @@ function App() {
       <Toolbar
         project={currentProject}
         onProjectChange={handleProjectChange}
-        onSave={handleSave}
         onBrowse={() => setShowBrowser(true)}
         onExportCSV={handleExportCSV}
         onPrint={handlePrint}
-        unsavedChanges={unsavedChanges}
         saving={saving}
       />
       
